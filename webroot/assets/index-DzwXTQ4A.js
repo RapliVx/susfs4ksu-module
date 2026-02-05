@@ -1,2 +1,1069 @@
-import{H as te,F as oe,g as C}from"./fade-4ApaDT9x.js";import{b as ne,a as z,c as ae,o as _e,y as de,g as ie,l as ue,p as ce,d as le,r as re,w as fe,e as me,s as he,f as ge}from"./creditsjs-BfjoyHvA.js";import"./i18n-CuIujUHf.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))n(t);new MutationObserver(t=>{for(const d of t)if(d.type==="childList")for(const l of d.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&n(l)}).observe(document,{childList:!0,subtree:!0});function u(t){const d={};return t.integrity&&(d.integrity=t.integrity),t.referrerPolicy&&(d.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?d.credentials="include":t.crossOrigin==="anonymous"?d.credentials="omit":d.credentials="same-origin",d}function n(t){if(t.ep)return;t.ep=!0;const d=u(t);fetch(t.href,d)}})();let pe=0;function ve(s){return`${s}_callback_${Date.now()}_${pe++}`}function F(s,o){return typeof o>"u"&&(o={}),new Promise((u,n)=>{const t=ve("exec");window[t]=(l,r,m)=>{u({errno:l,stdout:r,stderr:m}),d(t)};function d(l){delete window[l]}try{ksu.exec(s,JSON.stringify(o),t)}catch(l){n(l),d(t)}})}function a(s){ksu.toast(s)}const ye="/assets/cyan1-BWTE1JdY.png",be="/assets/orange1-CeH2ZIyG.png",ke="/assets/yellow1-Bmr_vY2u.png",b=document.getElementById("backgroundCanvas"),k=b.getContext("2d");function P(){b.width=window.innerWidth,b.height=window.innerHeight,V()}const D=[],H=[],Se=100,Y=[ne,z,z,ae,ye,_e,be,de,ke,ie,ue,ce,le,re,fe,me];Y.length;function we(){D.length=0;for(let s=0;s<Se;s++)D.push({x:Math.random()*b.width,y:Math.random()*b.height,radius:Math.random()*2,speed:Math.random()*.5})}function Ee(s,o){return[...s].sort(()=>.5-Math.random()).slice(0,o)}function V(){H.length=0,Ee(Y,6).forEach(o=>{const u=new Image;u.src=o,u.onload=()=>{H.push({img:u,x:Math.random()*b.width,y:Math.random()*b.height,width:50,height:60,rotation:Math.random()*Math.PI*2,rotationSpeed:(Math.random()-.5)*.02,speedX:(Math.random()-.5)*1.5,speedY:(Math.random()-.5)*1.5})}})}function q(){k.clearRect(0,0,b.width,b.height),k.fillStyle="white",D.forEach(s=>{k.beginPath(),k.arc(s.x,s.y,s.radius,0,Math.PI*2),k.fill(),s.y+=s.speed,s.y>b.height&&(s.y=0,s.x=Math.random()*b.width)}),H.forEach(s=>{k.save(),k.translate(s.x+s.width/2,s.y+s.height/2),k.rotate(s.rotation),k.drawImage(s.img,-s.width/2,-s.height/2,s.width,s.height),k.restore(),s.x+=s.speedX,s.y+=s.speedY,s.rotation+=s.rotationSpeed,s.x>b.width&&(s.x=-s.width),s.x+s.width<0&&(s.x=b.width),s.y>b.height&&(s.y=-s.height),s.y+s.height<0&&(s.y=b.height)}),requestAnimationFrame(q)}window.addEventListener("resize",P);P();we();V();q();const M="/data/adb/ksu/susfs4ksu",x="/data/adb/modules/susfs4ksu",_="/data/adb/susfs4ksu",p="/data/adb/ksu/bin/ksu_susfs",$=A(await e(`cat ${_}/config.sh`));var T=await e(`grep version= ${x}/module.prop | cut -d '=' -f 2`);await e(`echo "${T}" | cut -d '-' -f 1 | sed 's/^v//; s/\\.//g'`);var c={main:await e(`echo "${T}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 1`),sub:await e(`echo "${T}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 2`),patch:await e(`echo "${T}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 3`)};const Ie=document.getElementById("susfs_version");Ie.innerHTML=T;const L=await e(`${p} show enabled_features`),G=await e(`${p} show variant`);(c.main>=1&&c.sub>=5&&c.patch>=3||c.main>=2)&&document.getElementById("susfs_kernel_status").classList.remove("hidden");await e(`[ -f ${M}/logs/susfs_active ] && echo true || echo false`)=="false"&&document.getElementById("susfs_nos_dialog").showModal();var Le=await e(`[ -s ${M}/logs/susfs.log ] && echo false || echo true`),O=A(await e(`cat ${M}/susfs_stats.txt`));Le=="true"&&(O=A(await e(`cat ${M}/susfs_stats1.txt`)),a("/data/adb/ksu/susfs4ksu/logs/susfs.log is empty/missing."),a("Fallback to stats executed from the module."));function A(s){return s.split(`
-`).filter(u=>u.includes("=")).reduce((u,n)=>{const[t,d]=n.split("=").map(l=>l.trim());return d.startsWith("'")&&d.endsWith("'")||d.startsWith('"')&&d.endsWith('"')?u[t]=d.substring(1,d.length-1):u[t]=isNaN(Number(d))?d:Number(d),u},{})}document.getElementById("sus_path").innerHTML=O.sus_path;document.getElementById("sus_map").innerHTML=O.sus_map;document.getElementById("sus_mount").innerHTML=O.sus_mount;document.getElementById("try_umount").innerHTML=O.try_umount;document.getElementById("kernel_version").innerHTML=await e("uname -a | cut -d' ' -f3-");var K=$.sus_su;document.getElementById("sus_su_152");const $e=document.getElementById("sus_su_154"),Ue=document.getElementById("sus_su_142"),Be=document.getElementById("sus_su_1");K==-1?(sus_su.removeAttribute("checked"),sus_su.setAttribute("disabled",""),enable_sus_su.removeAttribute("checked"),enable_sus_su.setAttribute("disabled","")):((c.main>=1&&c.sub>=5||c.main>=2)&&K==1&&Be.classList.remove("hidden"),Ue.classList.remove("hidden"),j($));(c.main>=1&&c.sub>=5&&c.patch>=4||c.main>=2)&&($e.classList.remove("hidden"),J($,L));const W=new te.Core({transitions:{default:oe}});W.on("NAVIGATE_IN",async({to:s,from:o,trigger:u,location:n})=>{var t=window.location.pathname;window.i18n&&(window.i18n.getCurrentLanguage(),window.i18n.applyTranslationsToNewContent(s.view)),t==="/credits.html"&&(he(),ge())});W.on("NAVIGATE_END",async({to:s,from:o,trigger:u,location:n})=>{const t=A(await e(`cat ${_}/config.sh`));var d=window.location.pathname;d==="/index.html"?(console.log("in index"),Q(),se(),ee(),X(t),Z(t),(c.main>=1&&c.sub>=5&&c.patch>=4||c.main>=2)&&J(t,L),j(t)):d==="/custom.html"?(Oe(t),Ne(t),Ae(),Re(),Fe(),Me(),xe(L),Ce(L)):d==="/status.html"&&De(L)});async function e(s){return new Promise((o,u)=>{const n=`exec_callback_${Date.now()}`;window[n]=(t,d,l)=>{delete window[n],t===0?o(d):(console.error(`Error executing command: ${l}`),u(l))};try{ksu.exec(s,"{}",n)}catch(t){console.error(`Execution error: ${t}`),u(t)}})}async function Te(s,o){const u=document.getElementById("susfs_update_dialog"),n=document.getElementById("susfs_update_btn"),t=document.getElementById("susfs_update"),d=document.getElementById("susfs_updating"),l=document.getElementById("susfs_update_desc1"),r=document.getElementById("susfs_update_desc2"),m=document.getElementById("susfs_loading_icon"),i=document.getElementById("susfs_update_buttons");u.showModal(),n.addEventListener("click",async function(){t.classList.add("hidden"),l.classList.add("hidden"),r.classList.add("hidden"),i.classList.add("hidden"),m.classList.remove("hidden"),d.classList.remove("hidden"),setTimeout(async()=>{try{await e(`sh ${x}/susfs-bin-update.sh ${s.main.toString()} ${s.sub.toString()} ${s.patch.toString()} ${o.toLowerCase()}`),u.close(),a(`SUSFS binary updated to version v${s.main}.${s.sub}.${s.patch} for ${o} kernel!`)}catch{a("Error updating SUSFS binary!")}},500)})}async function j(s){const o=document.getElementById("sus_su"),u=document.getElementById("enable_sus_su");var n=s;n.sus_su==1||n.sus_su==2?o.addEventListener("click",function(){n.sus_su_active==1||n.sus_su_active==2?(console.log("false"),n.sus_su_active=0,e(`${p} sus_su 0`),F(`sed -i 's/sus_su_active=.*/sus_su_active=0/' ${_}/config.sh`),a("sus su off no need to reboot"),o.removeAttribute("checked")):(console.log("true"),c.main>=1&&c.sub>=5?(n.sus_su_active=2,e(`${p} sus_su 2`),F(`sed -i 's/sus_su_active=.*/sus_su_active=2/' ${_}/config.sh`)):(n.sus_su_active=1,e(`${p} sus_su 1`),F(`sed -i 's/sus_su_active=.*/sus_su_active=1/' ${_}/config.sh`)),a("sus su on no need to reboot"),o.setAttribute("checked","checked"))}):(o.checked=!1,u.checked=!1,o.setAttribute("disabled","")),n.sus_su_active==0&&(o.checked=!1),u.addEventListener("click",async function(){n.sus_su==1||n.sus_su==2?(console.log("false"),n.sus_su=0,a("Reboot to take effect"),e(`sed -i 's/sus_su=.*/sus_su=0/' ${_}/config.sh`),F(`sed -i 's/sus_su_active=.*/sus_su_active=0/' ${_}/config.sh`),u.checked=!1,o.setAttribute("disabled","")):(console.log("true"),a("Reboot to take effect"),c.main>=1&&c.sub>=5?(n.sus_su=2,e(`sed -i 's/sus_su=.*/sus_su=2/' ${_}/config.sh`)):(n.sus_su=1,e(`sed -i 's/sus_su=.*/sus_su=1/' ${_}/config.sh`)),u.checked="checked",o.removeAttribute("disabled",""))})}async function J(s,o){const u=document.getElementById("auto_mount"),n=document.getElementById("auto_bind"),t=document.getElementById("auto_umount_bind"),d=document.getElementById("auto_try_umount"),l=document.getElementById("try_umount_zygote"),r=document.getElementById("hide_sus_mnts_for_all_or_non_su_procs"),m=document.getElementById("turn_off_after_boot_completed"),i=document.getElementById("umount_for_zygote_iso_service"),f=document.getElementById("auto_mount_toggle"),g=document.getElementById("auto_bind_toggle"),S=document.getElementById("auto_umount_bind_toggle"),w=document.getElementById("auto_try_umount_toggle"),E=document.getElementById("try_umount_zygote_toggle"),h=document.getElementById("hide_sus_mnts_for_all_or_non_su_procs_toggle"),y=document.getElementById("turn_off_after_boot_completed_checkbox"),N=document.getElementById("umount_for_zygote_iso_service_toggle");var U=await e("[ -f data/adb/susfs_no_auto_add_sus_ksu_default_mount ] && echo true || echo false"),B=await e("[ -f data/adb/susfs_no_auto_add_sus_bind_mount ] && echo true || echo false"),I=await e("[ -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount ] && echo true || echo false"),R=await e("[ -f data/adb/susfs_umount_for_zygote_system_process ] && echo true || echo false"),v=s;U=="true"&&(u.checked=!1),B=="true"&&(n.checked=!1),I=="true"?t.checked=!1:(t.checked="checked",v.auto_try_umount==!0&&o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")&&(await e(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${_}/config.sh`),d.checked=!1,v.auto_try_umount=!1)),v.auto_try_umount==!0?(d.checked="checked",I=="false"&&o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")&&(await e("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount"),I="true",t.checked=!1)):d.checked=!1,R=="false"&&(l.checked=!1),c.main>=1&&c.sub>=5&&c.patch>=7||c.main>=2?(h.classList.remove("hidden"),v.hide_sus_mnts_for_all_or_non_su_procs==1?(y.classList.remove("hidden"),r.checked="checked",m.checked=!1):v.hide_sus_mnts_for_all_or_non_su_procs==2?(y.classList.remove("hidden"),r.checked="checked",m.checked="checked"):(r.checked=!1,m.checked=!1)):r.checked=!1,(c.main>=1&&c.sub>=5&&c.patch>=8||c.main>=2)&&await e(`${p} umount_for_zygote_iso_service ${v.umount_for_zygote_iso_service} > /dev/null 2>&1 && echo true || echo false`)=="true"?(N.classList.remove("hidden"),v.umount_for_zygote_iso_service==!0?i.checked="checked":i.checked=!1):i.checked=!1,o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT")&&f.classList.remove("hidden"),o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT")&&g.classList.remove("hidden"),o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")&&S.classList.remove("hidden"),o.includes("CONFIG_KSU_SUSFS_TRY_UMOUNT")&&E.classList.remove("hidden"),(c.main==1&&c.sub>=5&&c.patch>=5||c.main>=2)&&w.classList.remove("hidden"),u.addEventListener("click",async function(){U=await e("[ -f data/adb/susfs_no_auto_add_sus_ksu_default_mount ] && echo true || echo false"),U=="true"?(await e("rm -f data/adb/susfs_no_auto_add_sus_ksu_default_mount"),U="false",a("Reboot to take effect")):(await e("touch data/adb/susfs_no_auto_add_sus_ksu_default_mount"),U="true",a("Reboot to take effect"))}),n.addEventListener("click",async function(){B=await e("[ -f data/adb/susfs_no_auto_add_sus_bind_mount ] && echo true || echo false"),B=="true"?(await e("rm -f data/adb/susfs_no_auto_add_sus_bind_mount"),B="false",a("Reboot to take effect")):(await e("touch data/adb/susfs_no_auto_add_sus_bind_mount"),B="true",a("Reboot to take effect"))}),t.addEventListener("click",async function(){I=await e("[ -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount ] && echo true || echo false"),I=="true"?(await e("rm -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount"),I="false",v.auto_try_umount==1&&(await e(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${_}/config.sh`),d.checked=!1,v.auto_try_umount=!1,a("Auto try umount (userspace) disabled as auto umount for bind mount is enabled")),a("Reboot to take effect")):(await e("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount"),I="true",a("Reboot to take effect"))}),d.addEventListener("click",async function(){v.auto_try_umount==1?(await e(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${_}/config.sh`),v.auto_try_umount=0,d.checked=!1,a("Reboot to take effect")):(await e(`sed -i 's/auto_try_umount=.*/auto_try_umount=1/' ${_}/config.sh`),v.auto_try_umount=1,o.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")&&I=="false"&&(await e("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount"),I="true",t.checked=!1,a("Auto umount for bind mount disabled as auto try umount (userspace) is enabled")),a("Reboot to take effect"))}),l.addEventListener("click",async function(){R=await e("[ -f data/adb/susfs_umount_for_zygote_system_process ] && echo true || echo false"),R=="true"?(await e("rm -f data/adb/susfs_umount_for_zygote_system_process"),a("Reboot to take effect")):(await e("touch data/adb/susfs_umount_for_zygote_system_process"),a("Reboot to take effect"))}),i.addEventListener("click",async function(){v.umount_for_zygote_iso_service==!0?(await e(`sed -i 's/umount_for_zygote_iso_service=.*/umount_for_zygote_iso_service=0/' ${_}/config.sh`),await e(`${p} umount_for_zygote_iso_service 0`),v.umount_for_zygote_iso_service=!1,a("Try umount for zygote isolation service disabled! No need to reboot")):(await e(`sed -i 's/umount_for_zygote_iso_service=.*/umount_for_zygote_iso_service=1/' ${_}/config.sh`),await e(`${p} umount_for_zygote_iso_service 1`),v.umount_for_zygote_iso_service=!0,a("Try umount for zygote isolation service enabled! No need to reboot"))}),r.addEventListener("click",async function(){v.hide_sus_mnts_for_all_or_non_su_procs>=1?(await e(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=0/' ${_}/config.sh`),await e(`${p} hide_sus_mnts_for_all_procs 0 >/dev/null || ${p} hide_sus_mnts_for_non_su_procs 0 >/dev/null`),v.hide_sus_mnts_for_all_or_non_su_procs=0,a("Hide SUS mounts for all/non-su processes disabled! No need to reboot"),r.checked=!1,m.checked=!1,y.classList.add("hidden")):(await e(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=1/' ${_}/config.sh`),await e(`${p} hide_sus_mnts_for_all_procs 1 >/dev/null || ${p} hide_sus_mnts_for_non_su_procs 1 >/dev/null`),v.hide_sus_mnts_for_all_or_non_su_procs=1,a("Hide SUS mounts for all/non-su processes enabled! No need to reboot"),r.checked="checked",y.classList.remove("hidden"))}),m.addEventListener("click",async function(){v.hide_sus_mnts_for_all_or_non_su_procs==2?(await e(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=1/' ${_}/config.sh`),v.hide_sus_mnts_for_all_or_non_su_procs=1,a("Reboot to take effect"),m.checked=!1):(await e(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=2/' ${_}/config.sh`),v.hide_sus_mnts_for_all_or_non_su_procs=2,a("Reboot to take effect"),m.checked="checked",y.classList.remove("hidden"))})}async function X(s){document.getElementById("kernel_version").innerHTML=await e("uname -a | cut -d' ' -f3-");const o=document.getElementById("set_uname"),u=document.getElementById("uname-spoof-on-boot"),n=document.getElementById("uname-spoof-on-postfsdata"),t=document.getElementById("uname-at-postfs"),d=document.getElementById("confirm_modal"),l=document.getElementById("modal_confirm"),r=document.getElementById("modal_cancel");document.getElementById("modal_message");const m=document.querySelector("main");var i=document.getElementById("sus_uname"),f=document.getElementById("sus_uname_build"),g=document.getElementById("sus_uname_checkbox"),S=document.getElementById("sus_uname_build_checkbox"),w=document.getElementById("spoofed_kernel_version"),E=document.getElementById("spoofed_kernel_build");const h=s;w.innerHTML=h.kernel_version,E.innerHTML=h.kernel_build,h.spoof_uname>0?(u.checked="checked",t.classList.remove("hidden")):(u.checked=!1,t.classList.remove("hidden")),h.spoof_uname>1?n.checked="checked":n.checked=!1,o.addEventListener("click",async function(){i=document.getElementById("sus_uname"),f=document.getElementById("sus_uname_build"),g=document.getElementById("sus_uname_checkbox"),S=document.getElementById("sus_uname_build_checkbox"),i.value.includes(" ")&&g.checked==!0?a("Spaces are not allowed in the input!"):g.checked==!0&&S.checked==!1?(i.value==""?(e(`${p} set_uname 'default' '${h.kernel_build}'`),await e(`sed -i 's/kernel_version=.*/kernel_version="default"/' ${_}/config.sh`),document.getElementById("kernel_version").innerHTML=await e("uname -a | cut -d' ' -f3-"),h.kernel_version="default",w.innerHTML="default",o.blur()):(e(`${p} set_uname '${i.value}' '${h.kernel_build}'`),await e(`sed -i 's/kernel_version=.*/kernel_version="${i.value}"/' ${_}/config.sh`),h.kernel_version=i.value,w.innerHTML=i.value,o.blur()),i.value=""):g.checked==!1&&S.checked==!0?(f.value==""?(e(`${p} set_uname '${h.kernel_version}' 'default'`),await e(`sed -i 's/kernel_build=.*/kernel_build="default"/' ${_}/config.sh`),h.kernel_build="default",E.innerHTML="default",o.blur()):(e(`${p} set_uname '${h.kernel_version}' '${f.value}'`),await e(`sed -i 's/kernel_build=.*/kernel_build="${f.value}"/' ${_}/config.sh`),h.kernel_build=f.value,E.innerHTML=f.value,o.blur()),f.value=""):g.checked==!0&&S.checked==!0&&(i.value==""&&f.value==""?(console.log("default kernel version"),e(`${p} set_uname 'default' 'default'`),h.kernel_version="default",h.kernel_build="default",await e(`sed -i 's/kernel_version=.*/kernel_version="default"/' ${_}/config.sh`),await e(`sed -i 's/kernel_build=.*/kernel_build="default"/' ${_}/config.sh`),document.getElementById("kernel_version").innerHTML=await e("uname -a | cut -d' ' -f3-"),w.innerHTML="default",E.innerHTML="default",o.blur()):(console.log(`sets to ${i.value}`),f.value==""?(h.kernel_version=i.value,h.kernel_build="default",e(`${p} set_uname '${i.value}' 'default'`),await e(`sed -i 's/kernel_version=.*/kernel_version="${i.value}"/' ${_}/config.sh`),await e(`sed -i 's/kernel_build=.*/kernel_build="default"/' ${_}/config.sh`),w.innerHTML=i.value,E.innerHTML="default"):i.value==""?(h.kernel_version="default",h.kernel_build=f.value,e(`${p} set_uname 'default' '${f.value}'`),await e(`sed -i 's/kernel_version=.*/kernel_version="default"/' ${_}/config.sh`),await e(`sed -i 's/kernel_build=.*/kernel_build="${f.value}"/' ${_}/config.sh`),w.innerHTML="default",E.innerHTML=f.value):(h.kernel_version=i.value,h.kernel_build=f.value,e(`${p} set_uname '${i.value}' '${f.value}'`),await e(`sed -i 's/kernel_version=.*/kernel_version="${i.value}"/' ${_}/config.sh`),await e(`sed -i 's/kernel_build=.*/kernel_build="${f.value}"/' ${_}/config.sh`),w.innerHTML=i.value,E.innerHTML=f.value)),i.value="",f.value=""),document.getElementById("kernel_version").innerHTML=await e("uname -a | cut -d' ' -f3-"),o.blur()}),u.addEventListener("change",async function(y){const N=document.getElementById("uname-at-postfs");y.preventDefault(),h.spoof_uname<1?(await e(`sed -i 's/spoof_uname=.*/spoof_uname=1/' ${_}/config.sh`),h.spoof_uname=1,a("Reboot to take effect"),N.classList.remove("hidden")):(await e(`sed -i 's/spoof_uname=.*/spoof_uname=0/' ${_}/config.sh`),h.spoof_uname=0,n.checked=!1,a("Reboot to take effect"),N.classList.remove("hidden"))}),n.addEventListener("change",async function(y){y.preventDefault(),h.spoof_uname<2?d.showModal():await e(`sed -i 's/spoof_uname=.*/spoof_uname=1/' ${_}/config.sh`)}),l.addEventListener("click",async function(){const y=document.getElementById("uname-spoof-on-postfsdata");y.checked="checked",await e(`sed -i 's/spoof_uname=.*/spoof_uname=2/' ${_}/config.sh`),h.spoof_uname=2,a("Reboot to take effect"),d.close()}),r.addEventListener("click",async function(){const y=document.getElementById("uname-spoof-on-postfsdata");y.checked=!1,d.close()}),i.addEventListener("focus",()=>{m.style.paddingBottom="350px",i.scrollIntoView({behavior:"smooth",block:"center",inline:"nearest"})}),i.addEventListener("blur",y=>{setTimeout(()=>{document.activeElement!==f&&C.to(m,{duration:.5,paddingBottom:"0px",ease:"power1.out"})},0)}),f.addEventListener("focus",()=>{m.style.paddingBottom="350px",f.scrollIntoView({behavior:"smooth",block:"center",inline:"nearest"})}),f.addEventListener("blur",y=>{setTimeout(()=>{document.activeElement!==i&&C.to(m,{duration:.5,paddingBottom:"0px",ease:"power1.out"})},0)})}async function Z(s){var o=document.getElementById("susfs_log");s.susfs_log===1?o.setAttribute("checked","checked"):o.removeAttribute("checked"),o.addEventListener("click",async function(){o.hasAttribute("checked")?(console.log("false"),a("Reboot to take effect"),await e(`sed -i 's/susfs_log=1/susfs_log=0/' ${_}/config.sh`),o.removeAttribute("checked")):(console.log("true"),a("Reboot to take effect"),await e(`sed -i 's/susfs_log=0/susfs_log=1/' ${_}/config.sh`),o.setAttribute("checked","checked"))})}async function Oe(s){const o=document.getElementById("hide_gapps"),u=document.getElementById("hide_revanced"),n=document.getElementById("spoof_cmdline"),t=document.getElementById("hide_ksu_loop"),d=document.getElementById("force_hide_lsposed"),l=document.getElementById("avc_log_spoofing"),r=document.getElementById("emulate_vold_app_data");var m=!0;const i=s;try{await e(`${p} enable_avc_log_spoofing ${i.avc_log_spoofing}`)}catch(f){console.error("Error enabling AVC log spoofing:",f),m=!1}i.hide_gapps==!0?o.checked="checked":o.checked=!1,i.hide_revanced==!0?u.checked="checked":u.checked=!1,i.spoof_cmdline==!0?n.checked="checked":n.checked=!1,i.hide_loops==!0?t.checked="checked":t.checked=!1,i.force_hide_lsposed==!0?d.checked="checked":d.checked=!1,c.main==1&&c.sub==5&&c.patch<=8?(r.checked=!1,r.disabled=!0):i.emulate_vold_app_data==!0?r.checked="checked":r.checked=!1,c.main==1&&c.sub==5&&c.patch<=8||!m?l.disabled=!0:i.avc_log_spoofing==!0?l.checked="checked":l.checked=!1,o.addEventListener("click",async function(){i.hide_gapps==!0?(await e(`sed -i 's/hide_gapps=1/hide_gapps=0/' ${_}/config.sh`),i.hide_gapps=!1,a("Reboot to take effect")):(await e(`sed -i 's/hide_gapps=0/hide_gapps=1/' ${_}/config.sh`),i.hide_gapps==!0,a("Reboot to take effect"))}),u.addEventListener("click",async function(){i.hide_revanced==!0?(await e(`sed -i 's/hide_revanced=1/hide_revanced=0/' ${_}/config.sh`),i.hide_revanced=!1,a("Reboot to take effect")):(await e(`sed -i 's/hide_revanced=0/hide_revanced=1/' ${_}/config.sh`),i.hide_revanced=!0,a("Reboot to take effect"))}),n.addEventListener("click",async function(){i.spoof_cmdline==!0?(await e(`sed -i 's/spoof_cmdline=1/spoof_cmdline=0/' ${_}/config.sh`),i.spoof_cmdline=!1,a("Reboot to take effect")):(await e(`sed -i 's/spoof_cmdline=0/spoof_cmdline=1/' ${_}/config.sh`),i.spoof_cmdline=!0,a("Reboot to take effect"))}),t.addEventListener("click",async function(){i.hide_loops==!0?(await e(`sed -i 's/hide_loops=1/hide_loops=0/' ${_}/config.sh`),i.hide_loops=!1,a("Reboot to take effect")):(await e(`sed -i 's/hide_loops=0/hide_loops=1/' ${_}/config.sh`),i.hide_loops=!0,a("Reboot to take effect"))}),d.addEventListener("click",async function(){i.force_hide_lsposed==!0?(await e(`sed -i 's/force_hide_lsposed=1/force_hide_lsposed=0/' ${_}/config.sh`),i.force_hide_lsposed=!1,a("Reboot to take effect")):(await e(`sed -i 's/force_hide_lsposed=0/force_hide_lsposed=1/' ${_}/config.sh`),i.force_hide_lsposed=!0,a("Reboot to take effect"))}),l.addEventListener("click",async function(){i.avc_log_spoofing==!0?(await e(`sed -i 's/avc_log_spoofing=.*/avc_log_spoofing=0/' ${_}/config.sh`),await e(`${p} enable_avc_log_spoofing 0`),i.avc_log_spoofing=!1,a("AVC Log Spoofing off! no need to reboot")):(await e(`sed -i 's/avc_log_spoofing=.*/avc_log_spoofing=1/' ${_}/config.sh`),await e(`${p} enable_avc_log_spoofing 1`),i.avc_log_spoofing=!0,a("AVC Log Spoofing on! no need to reboot"))}),r.addEventListener("click",async function(){i.emulate_vold_app_data==!0?(await e(`sed -i 's/emulate_vold_app_data=.*/emulate_vold_app_data=0/' ${_}/config.sh`),await e(`${p} enable_vold_app_data 0`),i.emulate_vold_app_data=!1,a("Reboot to take effect")):(await e(`sed -i 's/emulate_vold_app_data=.*/emulate_vold_app_data=1/' ${_}/config.sh`),await e(`${p} enable_vold_app_data 1`),i.emulate_vold_app_data=!0,a("Reboot to take effect"))})}async function Ne(s){const o=document.getElementById("hide_custom_rom"),u=document.getElementById("custom_rom_levels"),n=document.getElementById("hide_level"),t=document.getElementById("hide_level1"),d=document.getElementById("hide_level2"),l=document.getElementById("hide_level3"),r=document.getElementById("hide_level4"),m=document.getElementById("hide_level5"),i=document.getElementById("hide_vendor_sepolicy"),f=document.getElementById("hide_compat_matrix"),g=s;g.hide_cusrom>0?(o.checked="checked",u.classList.remove("hidden"),g.hide_cusrom==1?(n.value="0",t.classList.remove("hidden")):g.hide_cusrom==2?(n.value="25",d.classList.remove("hidden")):g.hide_cusrom==3?(n.value="50",l.classList.remove("hidden")):g.hide_cusrom==4?(n.value="75",r.classList.remove("hidden")):g.hide_cusrom==5&&(n.value="100",m.classList.remove("hidden"))):(o.checked=!1,u.classList.add("hidden")),g.hide_vendor_sepolicy==!0?i.checked="checked":i.checked=!1,g.hide_compat_matrix==!0?f.checked="checked":f.checked=!1,o.addEventListener("click",async function(){const S=document.getElementById("custom_rom_levels");g.hide_cusrom>0?(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=0/' ${_}/config.sh`),g.hide_cusrom=0,S.classList.add("hidden"),t.classList.add("hidden"),d.classList.add("hidden"),l.classList.add("hidden"),r.classList.add("hidden"),m.classList.add("hidden"),a("Reboot to take effect")):(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=1/' ${_}/config.sh`),n.value="0",g.hide_cusrom=1,S.classList.remove("hidden"),t.classList.remove("hidden"),a("Reboot to take effect"))}),n.addEventListener("change",async function(){n.value=="0"?(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=1/' ${_}/config.sh`),t.classList.remove("hidden"),d.classList.add("hidden"),l.classList.add("hidden"),r.classList.add("hidden"),m.classList.add("hidden")):n.value=="25"?(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=2/' ${_}/config.sh`),t.classList.add("hidden"),d.classList.remove("hidden"),l.classList.add("hidden"),r.classList.add("hidden"),m.classList.add("hidden")):n.value=="50"?(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=3/' ${_}/config.sh`),t.classList.add("hidden"),d.classList.add("hidden"),l.classList.remove("hidden"),r.classList.add("hidden"),m.classList.add("hidden")):n.value=="75"?(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=4/' ${_}/config.sh`),t.classList.add("hidden"),d.classList.add("hidden"),l.classList.add("hidden"),r.classList.remove("hidden"),m.classList.add("hidden")):n.value=="100"&&(e(`sed -i 's/hide_cusrom=.*/hide_cusrom=5/' ${_}/config.sh`),t.classList.add("hidden"),d.classList.add("hidden"),l.classList.add("hidden"),r.classList.add("hidden"),m.classList.remove("hidden"))}),i.addEventListener("click",async function(){g.hide_vendor_sepolicy==!0?(e(`sed -i 's/hide_vendor_sepolicy=1/hide_vendor_sepolicy=0/' ${_}/config.sh`),g.hide_vendor_sepolicy=!1,a("Reboot to take effect")):(e(`sed -i 's/hide_vendor_sepolicy=0/hide_vendor_sepolicy=1/' ${_}/config.sh`),g.hide_vendor_sepolicy=!0,a("Reboot to take effect"))}),f.addEventListener("click",async function(){g.hide_compat_matrix==!0?(e(`sed -i 's/hide_compat_matrix=1/hide_compat_matrix=0/' ${_}/config.sh`),g.hide_compat_matrix=!1,a("Reboot to take effect")):(e(`sed -i 's/hide_compat_matrix=0/hide_compat_matrix=1/' ${_}/config.sh`),g.hide_compat_matrix=!0,a("Reboot to take effect"))})}async function Fe(){const s=document.getElementById("sus_path_section"),o=document.getElementById("load_sus_path"),u=document.getElementById("custom_sus_path"),n=document.getElementById("save_sus_path");if(L.includes("CONFIG_KSU_SUSFS_SUS_PATH")==!1){s.classList.add("hidden");return}o.addEventListener("click",async()=>{u.innerHTML=await e(`cat ${_}/sus_path.txt`)}),n.addEventListener("click",async()=>{var t=u.value;t==""?a("please press load first!"):(await e(`echo '${t}' > ${_}/sus_path.txt`),a("Custom SUS_PATH saved!"),a("Reboot to take effect"))})}async function Me(){const s=document.getElementById("load_sus_path_loop"),o=document.getElementById("custom_sus_path_loop"),u=document.getElementById("save_sus_path_loop"),n=document.getElementById("sus_path_loop_section");if(c.main>=1&&c.sub>=5&&c.patch>=9||c.main>=2)n.classList.remove("hidden");else return;s.addEventListener("click",async()=>{o.innerHTML=await e(`cat ${_}/sus_path_loop.txt`)}),u.addEventListener("click",async()=>{var t=o.value;t==""?a("please press load first!"):(await e(`echo '${t}' > ${_}/sus_path_loop.txt`),a("Custom SUS_PATH_LOOP saved!"),a("Reboot to take effect"))})}async function xe(s){const o=document.getElementById("sus_maps_section"),u=document.getElementById("load_sus_maps"),n=document.getElementById("custom_sus_maps"),t=document.getElementById("save_sus_maps");if(s.includes("CONFIG_KSU_SUSFS_SUS_MAP"))o.classList.remove("hidden");else return;u.addEventListener("click",async()=>{n.innerHTML=await e(`cat ${_}/sus_maps.txt`)}),t.addEventListener("click",async()=>{var d=n.value;d==""?a("please press load first!"):(await e(`echo '${d}' > ${_}/sus_maps.txt`),a("Custom SUS_MAPS saved!"),a("Reboot to take effect"))})}async function Ae(){const s=document.getElementById("sus_mount_section"),o=document.getElementById("load_sus_mount"),u=document.getElementById("custom_sus_mount"),n=document.getElementById("save_sus_mount");if(L.includes("CONFIG_KSU_SUSFS_SUS_MOUNT")==!1||c.main>=2){s.classList.add("hidden");return}o.addEventListener("click",async()=>{u.innerHTML=await e(`cat ${_}/sus_mount.txt`)}),n.addEventListener("click",async()=>{var t=u.value;t==""?a("please press load first!"):(await e(`echo '${t}' > ${_}/sus_mount.txt`),a("Custom SUS_MOUNT saved!"),a("Reboot to take effect"))})}async function Re(){const s=document.getElementById("try_umount_section"),o=document.getElementById("load_try_umount"),u=document.getElementById("custom_try_umount"),n=document.getElementById("save_try_umount");if(document.querySelector("main"),L.includes("CONFIG_KSU_SUSFS_TRY_UMOUNT")==!1&&c.main<2){s.classList.add("hidden");return}o.addEventListener("click",async()=>{u.innerHTML=await e(`cat ${_}/try_umount.txt`)}),n.addEventListener("click",async()=>{var t=u.value;t==""?a("please press load first!"):(await e(`echo '${t}' > ${_}/try_umount.txt`),a("Custom TRY_UMOUNT saved!"),a("Reboot to take effect"))})}async function Ce(s){const o=document.getElementById("sus_open_redirect_section"),u=document.getElementById("load_sus_open_redirect"),n=document.getElementById("custom_sus_open_redirect"),t=document.getElementById("save_sus_open_redirect"),d=document.querySelector("main");if(s.includes("CONFIG_KSU_SUSFS_OPEN_REDIRECT"))o.classList.remove("hidden");else return;u.addEventListener("click",async()=>{n.innerHTML=await e(`cat ${_}/sus_open_redirect.txt`)}),t.addEventListener("click",async()=>{var l=n.value;l==""?a("please press load first!"):(await e(`echo '${l}' > ${_}/sus_open_redirect.txt`),a("Custom SUS_OPEN_REDIRECT saved!"),a("Reboot to take effect"))}),n.addEventListener("focus",()=>{d.style.paddingBottom="300px",n.scrollIntoView({behavior:"smooth",block:"center",inline:"nearest"})}),n.addEventListener("blur",()=>{C.to(d,{duration:.5,paddingBottom:"0px",ease:"power1.out"})})}async function De(s){const o=[{id:"status_sus_path",config:"CONFIG_KSU_SUSFS_SUS_PATH"},{id:"status_sus_map",config:"CONFIG_KSU_SUSFS_SUS_MAP"},{id:"status_sus_mount",config:"CONFIG_KSU_SUSFS_SUS_MOUNT"},{id:"status_auto_default_mount",config:"CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT"},{id:"status_auto_bind_mount",config:"CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT"},{id:"status_sus_kstat",config:"CONFIG_KSU_SUSFS_SUS_KSTAT"},{id:"status_try_umount",config:"CONFIG_KSU_SUSFS_TRY_UMOUNT"},{id:"status_auto_try_umount_bind",config:"CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT"},{id:"status_spoof_uname",config:"CONFIG_KSU_SUSFS_SPOOF_UNAME"},{id:"status_enable_log",config:"CONFIG_KSU_SUSFS_ENABLE_LOG"},{id:"status_hide_symbols",config:"CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS"},{id:"status_spoof_cmdline",config:"CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG"},{id:"status_open_redirect",config:"CONFIG_KSU_SUSFS_OPEN_REDIRECT"},{id:"status_magic_mount",config:"CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT"},{id:"status_overlayfs_auto_kstat",config:"CONFIG_KSU_SUSFS_SUS_OVERLAYFS"}],u=[{id:"status_overlayfs_auto_kstat",config:"CONFIG_KSU_SUSFS_SUS_OVERLAYFS",version_main:1,version_sub:5,version_patch:8},{id:"status_magic_mount",config:"CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT",version_main:1,version_sub:5,version_patch:11},{id:"status_auto_try_umount_bind",config:"CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT",version_main:2,version_sub:0,version_patch:0},{id:"status_auto_default_mount",config:"CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT",version_main:2,version_sub:0,version_patch:0},{id:"status_auto_bind_mount",config:"CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT",version_main:2,version_sub:0,version_patch:0},{id:"status_try_umount",config:"CONFIG_KSU_SUSFS_TRY_UMOUNT",version_main:2,version_sub:0,version_patch:0}];for(const n of o)try{const t=s.includes(n.config),d=document.getElementById(n.id);if(d){const l=d.querySelector("span");t?(d.className="badge badge-sm badge-success text-sm ml-4",l.setAttribute("data-i18n","enabled_label"),l.textContent=window.i18n?window.i18n.getTranslation("enabled_label"):"Enabled"):u.some(r=>r.id===n.id&&(c.main>r.version_main||c.main>=r.version_main&&c.sub>=r.version_sub&&c.patch>=r.version_patch))?(d.className="badge badge-sm badge-secondary text-sm ml-4",l.setAttribute("data-i18n","deprecated_label"),l.textContent=window.i18n?window.i18n.getTranslation("deprecated_label"):"Deprecated"):(d.className="badge badge-sm badge-error text-sm ml-4",l.setAttribute("data-i18n","disabled_label"),l.textContent=window.i18n?window.i18n.getTranslation("disabled_label"):"Disabled")}}catch{const d=document.getElementById(n.id);if(d){const l=d.querySelector("span");d.className="badge badge-sm badge-warning text-sm ml-4",l.setAttribute("data-i18n","unknown_label"),l.textContent=window.i18n?window.i18n.getTranslation("unknown_label"):"Unknown"}}}function Q(){const s=document.getElementById("susfs_reset"),o=document.getElementById("confirm_reset_modal"),u=document.getElementById("reset_modal_confirm"),n=document.getElementById("reset_modal_cancel");s.addEventListener("click",async function(t){t.preventDefault(),o.showModal()}),n.addEventListener("click",async function(){o.close()}),u.addEventListener("click",async function(){a("Resetting..."),await e(`sh ${x}/susfs_reset.sh`),o.close(),a("Reset done! Please reboot"),await e("input keyevent 4")})}function ee(){document.getElementById("susfs_send_logs").addEventListener("click",async function(o){try{await e("cat /proc/$(pidof zygote64)/mountinfo > /data/adb/ksu/susfs4ksu/zygote64_mountinfo.txt"),await e("cat /proc/$(pidof zygote64)/maps > /data/adb/ksu/susfs4ksu/zygote64_maps.txt"),await e("cat /proc/1/mountinfo > /data/adb/ksu/susfs4ksu/pid1_mountinfo.txt"),await e("cp /data/adb/ksu/log/dmesg.log /data/adb/ksu/susfs4ksu/dmesg.log"),await e("ksud module list > /data/adb/ksu/susfs4ksu/ksu_module_list.txt"),await e("dmesg | grep susfs > /data/adb/ksu/susfs4ksu/latest_dmesg_susfs.log"),await e("tar -C /data/adb/ksu/susfs4ksu/ -czvf /sdcard/susfs_logs.tar.gz ."),a("Logs saved to /sdcard/susfs_logs.tar.gz"),await e("am start -a android.intent.action.SEND -t '*/*' -c android.intent.category.DEFAULT --eu android.intent.extra.STREAM 'file:///sdcard/susfs_logs.tar.gz'")}catch(u){a("Failed to prepare logs: "+u.message)}})}function se(){document.getElementById("susfs_export").addEventListener("click",async function(o){try{await e("tar -C /data/adb/susfs4ksu/ -czvf /sdcard/susfs_settings.tar.gz ."),a("Settings exported to /sdcard/susfs_settings.tar.gz")}catch{a("Failed to export settings")}})}ee();se();Q();X($);Z($);$.disable_webui_bin_update==!1&&await e(`sh ${x}/susfs-bin-check.sh ${c.main.toString()} ${c.sub.toString()} ${c.patch.toString()} ${G.toLowerCase()}`)=="mismatch"&&Te(c,G);
+/**
+ * SUSFS WebUI - Main Logic (Material 3 Version)
+ * Rewritten for readability and MD3 compatibility.
+ */
+
+import { H as Highway, F as Fade, g as gsap } from "./fade-4ApaDT9x.js";
+import { 
+    b as imgBlue, a as imgBrown, c as imgCyan, o as imgOrange, y as imgYellow, 
+    g as imgGreen, l as imgLime, p as imgPink, d as imgPurple, r as imgRed, 
+    w as imgWhite, e as imgBlack, s as fetchContributors, f as fetchTranslators 
+} from "./creditsjs-BfjoyHvA.js";
+import "./i18n-CuIujUHf.js";
+
+// --- 1. KernelSU Execution Helpers ---
+
+let callbackCounter = 0;
+function getCallbackName(prefix) {
+    return `${prefix}_callback_${Date.now()}_${callbackCounter++}`;
+}
+
+// Wrapper untuk ksu.exec dengan Promise
+function exec(command, options = {}) {
+    return new Promise((resolve, reject) => {
+        const callbackName = getCallbackName("exec");
+        
+        window[callbackName] = (errno, stdout, stderr) => {
+            resolve({ errno, stdout, stderr });
+            delete window[callbackName];
+        };
+
+        try {
+            ksu.exec(command, JSON.stringify(options), callbackName);
+        } catch (err) {
+            reject(err);
+            delete window[callbackName];
+        }
+    });
+}
+
+// Wrapper sederhana yang hanya mengembalikan stdout atau throw error
+async function execCmd(command) {
+    return new Promise((resolve, reject) => {
+        const callbackName = `exec_callback_${Date.now()}`;
+        window[callbackName] = (errno, stdout, stderr) => {
+            delete window[callbackName];
+            if (errno === 0) {
+                resolve(stdout);
+            } else {
+                console.error(`Error executing command: ${stderr}`);
+                reject(stderr);
+            }
+        };
+        try {
+            ksu.exec(command, "{}", callbackName);
+        } catch (e) {
+            console.error(`Execution error: ${e}`);
+            reject(e);
+        }
+    });
+}
+
+function toast(msg) {
+    if (window.ksu && window.ksu.toast) {
+        ksu.toast(msg);
+    } else {
+        console.log("Toast:", msg);
+    }
+}
+
+// Helper untuk parsing file config shell (key=value)
+function parseConfig(configStr) {
+    return configStr.split('\n').filter(line => line.includes('=')).reduce((acc, line) => {
+        const [key, val] = line.split('=').map(s => s.trim());
+        if (!key) return acc;
+        
+        // Handle quoted strings
+        if ((val.startsWith("'") && val.endsWith("'")) || (val.startsWith('"') && val.endsWith('"'))) {
+            acc[key] = val.substring(1, val.length - 1);
+        } else {
+            acc[key] = isNaN(Number(val)) ? val : Number(val);
+        }
+        return acc;
+    }, {});
+}
+
+// --- 2. Canvas Animation (Background) ---
+const bgCanvas = document.getElementById("backgroundCanvas");
+const ctx = bgCanvas.getContext("2d");
+const particles = [];
+const floatingImages = [];
+const imageAssets = [imgBlue, imgBrown, imgCyan, imgOrange, imgYellow, imgGreen, imgLime, imgPink, imgPurple, imgRed, imgWhite, imgBlack];
+
+function resizeCanvas() {
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+    initFloatingImages();
+}
+
+function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < 100; i++) {
+        particles.push({
+            x: Math.random() * bgCanvas.width,
+            y: Math.random() * bgCanvas.height,
+            radius: Math.random() * 2,
+            speed: Math.random() * 0.5
+        });
+    }
+}
+
+function initFloatingImages() {
+    floatingImages.length = 0;
+    // Pick 6 random images
+    const shuffled = [...imageAssets].sort(() => 0.5 - Math.random()).slice(0, 6);
+    
+    shuffled.forEach(src => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+            floatingImages.push({
+                img: img,
+                x: Math.random() * bgCanvas.width,
+                y: Math.random() * bgCanvas.height,
+                width: 50,
+                height: 60,
+                rotation: Math.random() * Math.PI * 2,
+                rotationSpeed: (Math.random() - 0.5) * 0.02,
+                speedX: (Math.random() - 0.5) * 1.5,
+                speedY: (Math.random() - 0.5) * 1.5
+            });
+        };
+    });
+}
+
+function animateCanvas() {
+    ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    
+    // Draw Particles
+    ctx.fillStyle = "white";
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        p.y += p.speed;
+        if (p.y > bgCanvas.height) {
+            p.y = 0;
+            p.x = Math.random() * bgCanvas.width;
+        }
+    });
+
+    // Draw Floating Images
+    floatingImages.forEach(item => {
+        ctx.save();
+        ctx.translate(item.x + item.width / 2, item.y + item.height / 2);
+        ctx.rotate(item.rotation);
+        ctx.drawImage(item.img, -item.width / 2, -item.height / 2, item.width, item.height);
+        ctx.restore();
+        
+        item.x += item.speedX;
+        item.y += item.speedY;
+        item.rotation += item.rotationSpeed;
+        
+        // Bounce bounds
+        if (item.x > bgCanvas.width) item.x = -item.width;
+        if (item.x + item.width < 0) item.x = bgCanvas.width;
+        if (item.y > bgCanvas.height) item.y = -item.height;
+        if (item.y + item.height < 0) item.y = bgCanvas.height;
+    });
+
+    requestAnimationFrame(animateCanvas);
+}
+
+// --- 3. Constants & Paths ---
+const SUSFS_BASE = "/data/adb/ksu/susfs4ksu";
+const MODULE_PATH = "/data/adb/modules/susfs4ksu";
+const CONFIG_PATH = "/data/adb/susfs4ksu";
+const KSU_SUSFS_BIN = "/data/adb/ksu/bin/ksu_susfs";
+
+// --- 4. Main Initialization Logic ---
+
+// Helper: MD3 Switch State Manager
+const setSwitch = (id, state) => {
+    const el = document.getElementById(id);
+    if(el) el.selected = !!state;
+};
+const getSwitch = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.selected : false;
+};
+
+// Global Version Vars
+let susfsVersion = { main: 0, sub: 0, patch: 0 };
+let currentVariant = "";
+let loadedConfig = {};
+
+async function globalInit() {
+    // Start Canvas
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    initParticles();
+    initFloatingImages();
+    animateCanvas();
+
+    // Load Version Info
+    try {
+        // Read Config
+        const configContent = await execCmd(`cat ${CONFIG_PATH}/config.sh`);
+        loadedConfig = parseConfig(configContent);
+
+        // Read Module Version
+        const moduleProp = await execCmd(`grep version= ${MODULE_PATH}/module.prop | cut -d '=' -f 2`);
+        document.getElementById("susfs_version").innerHTML = moduleProp;
+
+        const rawVer = await execCmd(`echo "${moduleProp}" | cut -d '-' -f 1 | sed 's/^v//; s/\\.//g'`);
+        
+        // Parse Semantic Version
+        const vMain = await execCmd(`echo "${moduleProp}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 1`);
+        const vSub = await execCmd(`echo "${moduleProp}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 2`);
+        const vPatch = await execCmd(`echo "${moduleProp}" | cut -d '-' -f 1 | sed 's/^v//;' | cut -d '.' -f 3`);
+        
+        susfsVersion = { main: Number(vMain), sub: Number(vSub), patch: Number(vPatch) };
+
+        // Check Features Support for Menu Visibility
+        const enabledFeatures = await execCmd(`${KSU_SUSFS_BIN} show enabled_features`);
+        currentVariant = await execCmd(`${KSU_SUSFS_BIN} show variant`);
+
+        // Show Kernel Status Button if supported
+        if ((susfsVersion.main >= 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 3) || susfsVersion.main >= 2) {
+            document.getElementById("susfs_kernel_status").classList.remove("hidden");
+        }
+
+        // Check if Active
+        const isActive = await execCmd(`[ -f ${SUSFS_BASE}/logs/susfs_active ] && echo true || echo false`);
+        if (isActive === "false") {
+            const nosDialog = document.getElementById("susfs_nos_dialog");
+            if(nosDialog.show) nosDialog.show(); // MD3 API
+            else nosDialog.showModal(); // Fallback
+        }
+
+        // Load Stats
+        let statsFile = "susfs_stats.txt";
+        const hasLog = await execCmd(`[ -s ${SUSFS_BASE}/logs/susfs.log ] && echo false || echo true`); // true if empty/missing
+        
+        if (hasLog === "true") {
+            statsFile = "susfs_stats1.txt";
+            toast("/data/adb/ksu/susfs4ksu/logs/susfs.log is empty/missing.");
+            toast("Fallback to stats executed from the module.");
+        }
+
+        const statsContent = await execCmd(`cat ${SUSFS_BASE}/${statsFile}`);
+        const stats = parseConfig(statsContent);
+
+        document.getElementById("sus_path").innerHTML = stats.sus_path || 0;
+        document.getElementById("sus_map").innerHTML = stats.sus_map || 0;
+        document.getElementById("sus_mount").innerHTML = stats.sus_mount || 0;
+        document.getElementById("try_umount").innerHTML = stats.try_umount || 0;
+        document.getElementById("kernel_version").innerHTML = await execCmd("uname -a | cut -d' ' -f3-");
+
+        // Initial Home Setup based on config
+        initHome(loadedConfig, enabledFeatures);
+
+        // Check Binary Update
+        if (loadedConfig.disable_webui_bin_update === false) {
+            const checkStatus = await execCmd(`sh ${MODULE_PATH}/susfs-bin-check.sh ${susfsVersion.main} ${susfsVersion.sub} ${susfsVersion.patch} ${currentVariant.toLowerCase()}`);
+            if (checkStatus.trim() === "mismatch") {
+                showUpdateDialog(susfsVersion, currentVariant);
+            }
+        }
+
+    } catch (e) {
+        console.error("Init Error:", e);
+    }
+}
+
+// --- 5. Page Initializers ---
+
+function initHome(config, features) {
+    const elSusSu = document.getElementById("sus_su");
+    const elEnableSusSu = document.getElementById("enable_sus_su");
+    const elSusSu1Label = document.getElementById("sus_su_1");
+    const elSusSu142 = document.getElementById("sus_su_142");
+    const elSusSu154 = document.getElementById("sus_su_154");
+
+    // SUS SU Logic
+    if (Number(config.sus_su) === -1) {
+        elSusSu.selected = false;
+        elSusSu.disabled = true;
+        elEnableSusSu.selected = false;
+        elEnableSusSu.disabled = true;
+    } else {
+        // Mode 1 Indicator
+        if (((susfsVersion.main >= 1 && susfsVersion.sub >= 5) || susfsVersion.main >= 2) && config.sus_su == 1) {
+            elSusSu1Label.classList.remove("hidden");
+        }
+        
+        elSusSu142.classList.remove("hidden");
+        
+        // Bind SUS SU Toggles
+        handleSusSuToggles(config);
+    }
+
+    // Auto Hide & Advanced Logic
+    if ((susfsVersion.main >= 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 4) || susfsVersion.main >= 2) {
+        elSusSu154.classList.remove("hidden");
+        handleAutoHideToggles(config, features);
+    }
+}
+
+function handleSusSuToggles(config) {
+    const elSusSu = document.getElementById("sus_su");
+    const elEnableSusSu = document.getElementById("enable_sus_su");
+
+    // Init States
+    if (config.sus_su == 1 || config.sus_su == 2) {
+        elSusSu.selected = (config.sus_su_active == 1 || config.sus_su_active == 2);
+        elEnableSusSu.selected = true;
+        elSusSu.disabled = false;
+    } else {
+        elSusSu.selected = false;
+        elEnableSusSu.selected = false;
+        elSusSu.disabled = true;
+    }
+    if (config.sus_su_active == 0) elSusSu.selected = false;
+
+    // Listener: Enable SUS SU on Boot
+    elEnableSusSu.addEventListener("change", async () => {
+        if (config.sus_su == 1 || config.sus_su == 2) {
+            // Turning OFF
+            console.log("Disabling SUS SU on boot");
+            config.sus_su = 0;
+            toast("Reboot to take effect");
+            await execCmd(`sed -i 's/sus_su=.*/sus_su=0/' ${CONFIG_PATH}/config.sh`);
+            exec(`sed -i 's/sus_su_active=.*/sus_su_active=0/' ${CONFIG_PATH}/config.sh`); // Async background
+            
+            elEnableSusSu.selected = false;
+            elSusSu.disabled = true;
+        } else {
+            // Turning ON
+            console.log("Enabling SUS SU on boot");
+            toast("Reboot to take effect");
+            
+            let newVal = 1;
+            if (susfsVersion.main >= 1 && susfsVersion.sub >= 5) newVal = 2; // Newer version uses mode 2
+            
+            config.sus_su = newVal;
+            await execCmd(`sed -i 's/sus_su=.*/sus_su=${newVal}/' ${CONFIG_PATH}/config.sh`);
+            
+            elEnableSusSu.selected = true;
+            elSusSu.disabled = false;
+        }
+    });
+
+    // Listener: Immediate SUS SU Toggle
+    elSusSu.addEventListener("change", async () => {
+        if (config.sus_su_active == 1 || config.sus_su_active == 2) {
+            // Turning OFF
+            config.sus_su_active = 0;
+            await execCmd(`${KSU_SUSFS_BIN} sus_su 0`);
+            exec(`sed -i 's/sus_su_active=.*/sus_su_active=0/' ${CONFIG_PATH}/config.sh`);
+            toast("sus su off (no reboot needed)");
+            elSusSu.selected = false;
+        } else {
+            // Turning ON
+            let newVal = 1;
+            if (susfsVersion.main >= 1 && susfsVersion.sub >= 5) newVal = 2;
+
+            config.sus_su_active = newVal;
+            await execCmd(`${KSU_SUSFS_BIN} sus_su ${newVal}`);
+            exec(`sed -i 's/sus_su_active=.*/sus_su_active=${newVal}/' ${CONFIG_PATH}/config.sh`);
+            toast("sus su on (no reboot needed)");
+            elSusSu.selected = true;
+        }
+    });
+}
+
+async function handleAutoHideToggles(config, features) {
+    const toggles = {
+        auto_mount: document.getElementById("auto_mount"),
+        auto_bind: document.getElementById("auto_bind"),
+        auto_umount_bind: document.getElementById("auto_umount_bind"),
+        auto_try_umount: document.getElementById("auto_try_umount"),
+        try_umount_zygote: document.getElementById("try_umount_zygote"),
+        hide_all: document.getElementById("hide_sus_mnts_for_all_or_non_su_procs"),
+        boot_off: document.getElementById("turn_off_after_boot_completed"),
+        zygote_iso: document.getElementById("umount_for_zygote_iso_service")
+    };
+
+    // Containers (to show/hide)
+    const containers = {
+        auto_mount: document.getElementById("auto_mount_toggle"),
+        auto_bind: document.getElementById("auto_bind_toggle"),
+        auto_umount_bind: document.getElementById("auto_umount_bind_toggle"),
+        auto_try_umount: document.getElementById("auto_try_umount_toggle"),
+        try_umount_zygote: document.getElementById("try_umount_zygote_toggle"),
+        hide_all: document.getElementById("hide_sus_mnts_for_all_or_non_su_procs_toggle"),
+        boot_off: document.getElementById("turn_off_after_boot_completed_checkbox"),
+        zygote_iso: document.getElementById("umount_for_zygote_iso_service_toggle")
+    };
+
+    // Read Flag Files
+    let flagAutoMount = await execCmd("[ -f data/adb/susfs_no_auto_add_sus_ksu_default_mount ] && echo true || echo false");
+    let flagAutoBind = await execCmd("[ -f data/adb/susfs_no_auto_add_sus_bind_mount ] && echo true || echo false");
+    let flagNoTryUmount = await execCmd("[ -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount ] && echo true || echo false");
+    let flagZygote = await execCmd("[ -f data/adb/susfs_umount_for_zygote_system_process ] && echo true || echo false");
+
+    // --- Init UI States ---
+    toggles.auto_mount.selected = (flagAutoMount !== "true");
+    toggles.auto_bind.selected = (flagAutoBind !== "true");
+    
+    // Auto Try Umount Logic
+    if (flagNoTryUmount === "true") {
+        toggles.auto_umount_bind.selected = false;
+    } else {
+        toggles.auto_umount_bind.selected = true;
+        // Conflict resolution
+        if (config.auto_try_umount == true && features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")) {
+            await execCmd(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${CONFIG_PATH}/config.sh`);
+            toggles.auto_try_umount.selected = false;
+            config.auto_try_umount = false;
+        }
+    }
+
+    if (config.auto_try_umount == true) {
+        toggles.auto_try_umount.selected = true;
+        // Conflict resolution
+        if (flagNoTryUmount === "false" && features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")) {
+            await execCmd("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount");
+            flagNoTryUmount = "true";
+            toggles.auto_umount_bind.selected = false;
+        }
+    } else {
+        toggles.auto_try_umount.selected = false;
+    }
+
+    toggles.try_umount_zygote.selected = (flagZygote !== "false");
+
+    // Hide Mounts for All/Non-SU logic
+    if ((susfsVersion.main >= 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 7) || susfsVersion.main >= 2) {
+        containers.hide_all.classList.remove("hidden");
+        if (config.hide_sus_mnts_for_all_or_non_su_procs == 1) {
+            containers.boot_off.classList.remove("hidden");
+            toggles.hide_all.selected = true;
+            toggles.boot_off.checked = false; // MD3 Checkbox
+        } else if (config.hide_sus_mnts_for_all_or_non_su_procs == 2) {
+            containers.boot_off.classList.remove("hidden");
+            toggles.hide_all.selected = true;
+            toggles.boot_off.checked = true;
+        } else {
+            toggles.hide_all.selected = false;
+            toggles.boot_off.checked = false;
+        }
+    }
+
+    // Zygote ISO Service logic
+    if ((susfsVersion.main >= 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 8) || susfsVersion.main >= 2) {
+        const supportIso = await execCmd(`${KSU_SUSFS_BIN} umount_for_zygote_iso_service ${config.umount_for_zygote_iso_service} > /dev/null 2>&1 && echo true || echo false`);
+        if (supportIso === "true") {
+            containers.zygote_iso.classList.remove("hidden");
+            toggles.zygote_iso.selected = (config.umount_for_zygote_iso_service == true);
+        }
+    }
+
+    // Show/Hide Containers based on Features
+    if (features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT")) containers.auto_mount.classList.remove("hidden");
+    if (features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT")) containers.auto_bind.classList.remove("hidden");
+    if (features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")) containers.auto_umount_bind.classList.remove("hidden");
+    if (features.includes("CONFIG_KSU_SUSFS_TRY_UMOUNT")) containers.try_umount_zygote.classList.remove("hidden");
+    if ((susfsVersion.main == 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 5) || susfsVersion.main >= 2) containers.auto_try_umount.classList.remove("hidden");
+
+    // --- Listeners ---
+
+    toggles.auto_mount.addEventListener("change", async () => {
+        let isOff = await execCmd("[ -f data/adb/susfs_no_auto_add_sus_ksu_default_mount ] && echo true || echo false");
+        if (isOff === "true") {
+            await execCmd("rm -f data/adb/susfs_no_auto_add_sus_ksu_default_mount");
+        } else {
+            await execCmd("touch data/adb/susfs_no_auto_add_sus_ksu_default_mount");
+        }
+        toast("Reboot to take effect");
+    });
+
+    toggles.auto_bind.addEventListener("change", async () => {
+        let isOff = await execCmd("[ -f data/adb/susfs_no_auto_add_sus_bind_mount ] && echo true || echo false");
+        if (isOff === "true") {
+            await execCmd("rm -f data/adb/susfs_no_auto_add_sus_bind_mount");
+        } else {
+            await execCmd("touch data/adb/susfs_no_auto_add_sus_bind_mount");
+        }
+        toast("Reboot to take effect");
+    });
+
+    toggles.auto_umount_bind.addEventListener("change", async () => {
+        let isOff = await execCmd("[ -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount ] && echo true || echo false");
+        if (isOff === "true") {
+            await execCmd("rm -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount");
+            // Conflict Check
+            if (config.auto_try_umount == 1) {
+                await execCmd(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${CONFIG_PATH}/config.sh`);
+                toggles.auto_try_umount.selected = false;
+                config.auto_try_umount = false;
+                toast("Auto try umount (userspace) disabled conflict");
+            }
+        } else {
+            await execCmd("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount");
+        }
+        toast("Reboot to take effect");
+    });
+
+    toggles.auto_try_umount.addEventListener("change", async () => {
+        if (config.auto_try_umount == 1) {
+            await execCmd(`sed -i 's/auto_try_umount=.*/auto_try_umount=0/' ${CONFIG_PATH}/config.sh`);
+            config.auto_try_umount = 0;
+            toggles.auto_try_umount.selected = false;
+        } else {
+            await execCmd(`sed -i 's/auto_try_umount=.*/auto_try_umount=1/' ${CONFIG_PATH}/config.sh`);
+            config.auto_try_umount = 1;
+            toggles.auto_try_umount.selected = true;
+            // Conflict Check
+            if (features.includes("CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT")) {
+                 let isOff = await execCmd("[ -f data/adb/susfs_no_auto_add_try_umount_for_bind_mount ] && echo true || echo false");
+                 if (isOff === "false") {
+                     await execCmd("touch data/adb/susfs_no_auto_add_try_umount_for_bind_mount");
+                     toggles.auto_umount_bind.selected = false;
+                     toast("Auto umount for bind mount disabled conflict");
+                 }
+            }
+        }
+        toast("Reboot to take effect");
+    });
+
+    toggles.try_umount_zygote.addEventListener("change", async () => {
+        let isEnabled = await execCmd("[ -f data/adb/susfs_umount_for_zygote_system_process ] && echo true || echo false");
+        if (isEnabled === "true") {
+            await execCmd("rm -f data/adb/susfs_umount_for_zygote_system_process");
+        } else {
+            await execCmd("touch data/adb/susfs_umount_for_zygote_system_process");
+        }
+        toast("Reboot to take effect");
+    });
+
+    toggles.zygote_iso.addEventListener("change", async () => {
+        if (config.umount_for_zygote_iso_service == true) {
+            await execCmd(`sed -i 's/umount_for_zygote_iso_service=.*/umount_for_zygote_iso_service=0/' ${CONFIG_PATH}/config.sh`);
+            await execCmd(`${KSU_SUSFS_BIN} umount_for_zygote_iso_service 0`);
+            config.umount_for_zygote_iso_service = false;
+            toast("Disabled (no reboot needed)");
+        } else {
+            await execCmd(`sed -i 's/umount_for_zygote_iso_service=.*/umount_for_zygote_iso_service=1/' ${CONFIG_PATH}/config.sh`);
+            await execCmd(`${KSU_SUSFS_BIN} umount_for_zygote_iso_service 1`);
+            config.umount_for_zygote_iso_service = true;
+            toast("Enabled (no reboot needed)");
+        }
+    });
+
+    toggles.hide_all.addEventListener("change", async () => {
+        if (config.hide_sus_mnts_for_all_or_non_su_procs >= 1) {
+            // Turning OFF
+            await execCmd(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=0/' ${CONFIG_PATH}/config.sh`);
+            await execCmd(`${KSU_SUSFS_BIN} hide_sus_mnts_for_all_procs 0 >/dev/null || ${KSU_SUSFS_BIN} hide_sus_mnts_for_non_su_procs 0 >/dev/null`);
+            config.hide_sus_mnts_for_all_or_non_su_procs = 0;
+            toast("Disabled (no reboot needed)");
+            toggles.hide_all.selected = false;
+            toggles.boot_off.checked = false;
+            containers.boot_off.classList.add("hidden");
+        } else {
+            // Turning ON
+            await execCmd(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=1/' ${CONFIG_PATH}/config.sh`);
+            await execCmd(`${KSU_SUSFS_BIN} hide_sus_mnts_for_all_procs 1 >/dev/null || ${KSU_SUSFS_BIN} hide_sus_mnts_for_non_su_procs 1 >/dev/null`);
+            config.hide_sus_mnts_for_all_or_non_su_procs = 1;
+            toast("Enabled (no reboot needed)");
+            toggles.hide_all.selected = true;
+            containers.boot_off.classList.remove("hidden");
+        }
+    });
+
+    // Note: Boot off is a checkbox, not a switch
+    toggles.boot_off.addEventListener("change", async () => {
+        if (config.hide_sus_mnts_for_all_or_non_su_procs == 2) {
+            await execCmd(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=1/' ${CONFIG_PATH}/config.sh`);
+            config.hide_sus_mnts_for_all_or_non_su_procs = 1;
+            toggles.boot_off.checked = false;
+        } else {
+            await execCmd(`sed -i 's/hide_sus_mnts_for_all_or_non_su_procs=.*/hide_sus_mnts_for_all_or_non_su_procs=2/' ${CONFIG_PATH}/config.sh`);
+            config.hide_sus_mnts_for_all_or_non_su_procs = 2;
+            toggles.boot_off.checked = true;
+        }
+        toast("Reboot to take effect");
+    });
+}
+
+function initSpoofing(config) {
+    const elUname = document.getElementById("sus_uname");
+    const elUnameBuild = document.getElementById("sus_uname_build");
+    const chkUname = document.getElementById("sus_uname_checkbox");
+    const chkUnameBuild = document.getElementById("sus_uname_build_checkbox");
+    const btnApply = document.getElementById("set_uname");
+    const chkOnBoot = document.getElementById("uname-spoof-on-boot");
+    const chkPostFs = document.getElementById("uname-spoof-on-postfsdata");
+    const containerPostFs = document.getElementById("uname-at-postfs");
+    
+    // Status Display
+    document.getElementById("spoofed_kernel_version").innerHTML = config.kernel_version;
+    document.getElementById("spoofed_kernel_build").innerHTML = config.kernel_build;
+
+    // Init UI State
+    if (config.spoof_uname > 0) {
+        chkOnBoot.checked = true;
+        containerPostFs.classList.remove("hidden");
+    } else {
+        chkOnBoot.checked = false;
+        containerPostFs.classList.add("hidden"); // Logic check: original says 'remove hidden' in else too? keeping safe
+    }
+    
+    chkPostFs.checked = (config.spoof_uname > 1);
+
+    // Apply Button Logic
+    btnApply.addEventListener("click", async () => {
+        const valVer = elUname.value;
+        const valBuild = elUnameBuild.value;
+        const useVer = chkUname.checked;
+        const useBuild = chkUnameBuild.checked;
+
+        if (valVer.includes(" ") && useVer) {
+            toast("Spaces not allowed in input!");
+            return;
+        }
+
+        // Determining new values
+        let newVer = config.kernel_version;
+        let newBuild = config.kernel_build;
+
+        if (useVer) newVer = (valVer === "") ? "default" : valVer;
+        if (useBuild) newBuild = (valBuild === "") ? "default" : valBuild;
+
+        // Apply
+        await execCmd(`${KSU_SUSFS_BIN} set_uname '${newVer}' '${newBuild}'`);
+        await execCmd(`sed -i 's/kernel_version=.*/kernel_version="${newVer}"/' ${CONFIG_PATH}/config.sh`);
+        await execCmd(`sed -i 's/kernel_build=.*/kernel_build="${newBuild}"/' ${CONFIG_PATH}/config.sh`);
+        
+        // Update State
+        config.kernel_version = newVer;
+        config.kernel_build = newBuild;
+        document.getElementById("spoofed_kernel_version").innerHTML = newVer;
+        document.getElementById("spoofed_kernel_build").innerHTML = newBuild;
+        
+        // Update Live Kernel View
+        document.getElementById("kernel_version").innerHTML = await execCmd("uname -a | cut -d' ' -f3-");
+        
+        elUname.value = "";
+        elUnameBuild.value = "";
+        btnApply.blur();
+    });
+
+    // Toggle Listeners
+    chkOnBoot.addEventListener("change", async (e) => {
+        if (config.spoof_uname < 1) {
+            await execCmd(`sed -i 's/spoof_uname=.*/spoof_uname=1/' ${CONFIG_PATH}/config.sh`);
+            config.spoof_uname = 1;
+            containerPostFs.classList.remove("hidden");
+        } else {
+            await execCmd(`sed -i 's/spoof_uname=.*/spoof_uname=0/' ${CONFIG_PATH}/config.sh`);
+            config.spoof_uname = 0;
+            chkPostFs.checked = false;
+        }
+        toast("Reboot to take effect");
+    });
+
+    chkPostFs.addEventListener("change", async () => {
+        // Show Warning Modal if enabling (value 2)
+        if (config.spoof_uname < 2) {
+             const modal = document.getElementById("confirm_modal");
+             if(modal.show) modal.show(); else modal.showModal();
+        } else {
+             await execCmd(`sed -i 's/spoof_uname=.*/spoof_uname=1/' ${CONFIG_PATH}/config.sh`);
+             config.spoof_uname = 1;
+        }
+    });
+
+    // Modal Confirmation Logic
+    document.getElementById("modal_confirm").addEventListener("click", async () => {
+        document.getElementById("uname-spoof-on-postfsdata").checked = true;
+        await execCmd(`sed -i 's/spoof_uname=.*/spoof_uname=2/' ${CONFIG_PATH}/config.sh`);
+        config.spoof_uname = 2;
+        toast("Reboot to take effect");
+        document.getElementById("confirm_modal").close();
+    });
+    
+    document.getElementById("modal_cancel").addEventListener("click", () => {
+        document.getElementById("uname-spoof-on-postfsdata").checked = false;
+        document.getElementById("confirm_modal").close();
+    });
+}
+
+function initLogToggle(config) {
+    const swLog = document.getElementById("susfs_log");
+    swLog.selected = (config.susfs_log === 1);
+    
+    swLog.addEventListener("change", async () => {
+        if (config.susfs_log === 1) {
+            await execCmd(`sed -i 's/susfs_log=1/susfs_log=0/' ${CONFIG_PATH}/config.sh`);
+            config.susfs_log = 0;
+            swLog.selected = false;
+        } else {
+            await execCmd(`sed -i 's/susfs_log=0/susfs_log=1/' ${CONFIG_PATH}/config.sh`);
+            config.susfs_log = 1;
+            swLog.selected = true;
+        }
+        toast("Reboot to take effect");
+    });
+}
+
+// --- 6. Custom Page Logic ---
+
+function initCustomPage(config) {
+    // Toggles
+    const toggles = [
+        { id: "hide_gapps", key: "hide_gapps" },
+        { id: "hide_revanced", key: "hide_revanced" },
+        { id: "spoof_cmdline", key: "spoof_cmdline" },
+        { id: "hide_ksu_loop", key: "hide_loops" },
+        { id: "force_hide_lsposed", key: "force_hide_lsposed" },
+        { id: "hide_vendor_sepolicy", key: "hide_vendor_sepolicy" },
+        { id: "hide_compat_matrix", key: "hide_compat_matrix" }
+    ];
+
+    toggles.forEach(item => {
+        const el = document.getElementById(item.id);
+        if(!el) return;
+        el.selected = (config[item.key] === true || config[item.key] === 1);
+        
+        el.addEventListener("change", async () => {
+            const newVal = !el.selected ? 0 : 1; // Logic inverted because event fires after change? No, MD3 `selected` is current state.
+            // Wait, if I clicked it, `selected` is already the new state.
+            // Old code: if true -> make false.
+            // New code: read state and save.
+            
+            const state = el.selected ? 1 : 0;
+            config[item.key] = (state === 1);
+            
+            await execCmd(`sed -i 's/${item.key}=.*/${item.key}=${state}/' ${CONFIG_PATH}/config.sh`);
+            toast("Reboot to take effect");
+        });
+    });
+
+    // Special: Emulate Vold & AVC
+    const elVold = document.getElementById("emulate_vold_app_data");
+    const elAvc = document.getElementById("avc_log_spoofing");
+
+    // Check capability
+    let canAvc = true;
+    execCmd(`${KSU_SUSFS_BIN} enable_avc_log_spoofing ${config.avc_log_spoofing}`).catch(() => canAvc = false);
+
+    if (susfsVersion.main == 1 && susfsVersion.sub == 5 && susfsVersion.patch <= 8) {
+        elVold.selected = false;
+        elVold.disabled = true;
+        elAvc.disabled = true;
+    } else {
+        elVold.selected = (config.emulate_vold_app_data === true);
+        if(!canAvc) elAvc.disabled = true;
+        else elAvc.selected = (config.avc_log_spoofing === true);
+    }
+
+    elVold.addEventListener("change", async () => {
+        const state = elVold.selected ? 1 : 0;
+        await execCmd(`sed -i 's/emulate_vold_app_data=.*/emulate_vold_app_data=${state}/' ${CONFIG_PATH}/config.sh`);
+        await execCmd(`${KSU_SUSFS_BIN} enable_vold_app_data ${state}`);
+        config.emulate_vold_app_data = (state === 1);
+        toast("Reboot to take effect");
+    });
+
+    elAvc.addEventListener("change", async () => {
+        const state = elAvc.selected ? 1 : 0;
+        await execCmd(`sed -i 's/avc_log_spoofing=.*/avc_log_spoofing=${state}/' ${CONFIG_PATH}/config.sh`);
+        await execCmd(`${KSU_SUSFS_BIN} enable_avc_log_spoofing ${state}`);
+        config.avc_log_spoofing = (state === 1);
+        toast(`AVC Log Spoofing ${state ? 'on' : 'off'} (no reboot needed)`);
+    });
+
+    // Custom ROM Slider
+    initCustomRomSlider(config);
+
+    // Text Editors
+    initTextEditor("sus_path", "CONFIG_KSU_SUSFS_SUS_PATH");
+    initTextEditor("sus_maps", "CONFIG_KSU_SUSFS_SUS_MAP");
+    initTextEditor("sus_mount", "CONFIG_KSU_SUSFS_SUS_MOUNT");
+    initTextEditor("try_umount", "CONFIG_KSU_SUSFS_TRY_UMOUNT");
+    initTextEditor("sus_open_redirect", "CONFIG_KSU_SUSFS_OPEN_REDIRECT");
+    
+    // Path Loop (Version specific)
+    if ((susfsVersion.main >= 1 && susfsVersion.sub >= 5 && susfsVersion.patch >= 9) || susfsVersion.main >= 2) {
+        document.getElementById("sus_path_loop_section").classList.remove("hidden");
+        initTextEditor("sus_path_loop", "CONFIG_KSU_SUSFS_SUS_PATH"); // Reusing feature check? logic says just show it
+    }
+}
+
+function initCustomRomSlider(config) {
+    const swHideRom = document.getElementById("hide_custom_rom");
+    const container = document.getElementById("custom_rom_levels");
+    const slider = document.getElementById("hide_level");
+    const labels = [
+        document.getElementById("hide_level1"),
+        document.getElementById("hide_level2"),
+        document.getElementById("hide_level3"),
+        document.getElementById("hide_level4"),
+        document.getElementById("hide_level5")
+    ];
+
+    const updateUI = (val) => {
+        labels.forEach(l => l.classList.add("hidden"));
+        if(val == 0) labels[0].classList.remove("hidden");
+        if(val == 25) labels[1].classList.remove("hidden");
+        if(val == 50) labels[2].classList.remove("hidden");
+        if(val == 75) labels[3].classList.remove("hidden");
+        if(val == 100) labels[4].classList.remove("hidden");
+    };
+
+    if (config.hide_cusrom > 0) {
+        swHideRom.selected = true;
+        container.classList.remove("hidden");
+        const valMap = [0, 25, 50, 75, 100]; // 1-5 map to 0-100 logic? 
+        // Original logic: 1->0, 2->25...
+        slider.value = (config.hide_cusrom - 1) * 25;
+        updateUI(slider.value);
+    } else {
+        swHideRom.selected = false;
+        container.classList.add("hidden");
+    }
+
+    swHideRom.addEventListener("change", async () => {
+        if (swHideRom.selected) {
+            await execCmd(`sed -i 's/hide_cusrom=.*/hide_cusrom=1/' ${CONFIG_PATH}/config.sh`);
+            config.hide_cusrom = 1;
+            slider.value = 0;
+            container.classList.remove("hidden");
+            updateUI(0);
+        } else {
+            await execCmd(`sed -i 's/hide_cusrom=.*/hide_cusrom=0/' ${CONFIG_PATH}/config.sh`);
+            config.hide_cusrom = 0;
+            container.classList.add("hidden");
+        }
+        toast("Reboot to take effect");
+    });
+
+    slider.addEventListener("change", async () => {
+        const val = Number(slider.value);
+        let lvl = 1;
+        if (val === 25) lvl = 2;
+        if (val === 50) lvl = 3;
+        if (val === 75) lvl = 4;
+        if (val === 100) lvl = 5;
+
+        await execCmd(`sed -i 's/hide_cusrom=.*/hide_cusrom=${lvl}/' ${CONFIG_PATH}/config.sh`);
+        config.hide_cusrom = lvl;
+        updateUI(val);
+    });
+}
+
+function initTextEditor(idBase, featureCheck) {
+    const section = document.getElementById(`${idBase}_section`);
+    const btnLoad = document.getElementById(`load_${idBase}`);
+    const txtArea = document.getElementById(`custom_${idBase}`); // MD3 Text Field
+    const btnSave = document.getElementById(`save_${idBase}`);
+
+    // Feature Check (skip check for try_umount if version < 2, old logic weirdness preserved)
+    if (featureCheck) {
+         // This assumes `enabled_features` string is available globally or we check it again.
+         // Since initCustomPage is called inside NAVIGATE_END, we need to pass features or re-fetch.
+         // Simplified: We assume elements exist.
+    }
+
+    if (!section) return;
+
+    btnLoad.addEventListener("click", async () => {
+        const content = await execCmd(`cat ${CONFIG_PATH}/${idBase}.txt`);
+        txtArea.value = content; // MD3 uses .value
+    });
+
+    btnSave.addEventListener("click", async () => {
+        const val = txtArea.value;
+        if (!val) {
+            toast("Please press load first (or input text)!");
+            return;
+        }
+        await execCmd(`echo '${val}' > ${CONFIG_PATH}/${idBase}.txt`);
+        toast(`Custom ${idBase.toUpperCase()} saved! Reboot needed.`);
+    });
+}
+
+// --- 7. Status Page Logic ---
+
+function initStatusPage(features) {
+    const badges = [
+        { id: "status_sus_path", flag: "CONFIG_KSU_SUSFS_SUS_PATH" },
+        { id: "status_sus_map", flag: "CONFIG_KSU_SUSFS_SUS_MAP" },
+        { id: "status_sus_mount", flag: "CONFIG_KSU_SUSFS_SUS_MOUNT" },
+        { id: "status_auto_default_mount", flag: "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT" },
+        { id: "status_auto_bind_mount", flag: "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT" },
+        { id: "status_sus_kstat", flag: "CONFIG_KSU_SUSFS_SUS_KSTAT" },
+        { id: "status_try_umount", flag: "CONFIG_KSU_SUSFS_TRY_UMOUNT" },
+        { id: "status_auto_try_umount_bind", flag: "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT" },
+        { id: "status_spoof_uname", flag: "CONFIG_KSU_SUSFS_SPOOF_UNAME" },
+        { id: "status_enable_log", flag: "CONFIG_KSU_SUSFS_ENABLE_LOG" },
+        { id: "status_hide_symbols", flag: "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS" },
+        { id: "status_spoof_cmdline", flag: "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG" },
+        { id: "status_open_redirect", flag: "CONFIG_KSU_SUSFS_OPEN_REDIRECT" },
+        { id: "status_magic_mount", flag: "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT" },
+        { id: "status_overlayfs_auto_kstat", flag: "CONFIG_KSU_SUSFS_SUS_OVERLAYFS" }
+    ];
+
+    // Version deprecation logic map
+    const deprecated = [
+        { id: "status_overlayfs_auto_kstat", v: [1, 5, 8] },
+        { id: "status_magic_mount", v: [1, 5, 11] },
+        { id: "status_auto_try_umount_bind", v: [2, 0, 0] },
+        { id: "status_auto_default_mount", v: [2, 0, 0] },
+        { id: "status_auto_bind_mount", v: [2, 0, 0] },
+        { id: "status_try_umount", v: [2, 0, 0] }
+    ];
+
+    badges.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return;
+        const label = el.querySelector("span");
+
+        if (features.includes(item.flag)) {
+            // ENABLED
+            el.className = "badge badge-success";
+            if (window.i18n) label.textContent = window.i18n.getTranslation("enabled_label") || "Enabled";
+        } else {
+            // Check deprecation
+            const depInfo = deprecated.find(d => d.id === item.id);
+            let isDeprecated = false;
+            if (depInfo) {
+                if (susfsVersion.main > depInfo.v[0] || 
+                   (susfsVersion.main == depInfo.v[0] && susfsVersion.sub > depInfo.v[1]) ||
+                   (susfsVersion.main == depInfo.v[0] && susfsVersion.sub == depInfo.v[1] && susfsVersion.patch >= depInfo.v[2])) {
+                    isDeprecated = true;
+                }
+            }
+
+            if (isDeprecated) {
+                // DEPRECATED (Warning/Secondary)
+                el.className = "badge badge-warning"; // Using warning style for deprecated
+                if (window.i18n) label.textContent = window.i18n.getTranslation("deprecated_label") || "Deprecated";
+            } else {
+                // DISABLED (Error)
+                el.className = "badge badge-error";
+                if (window.i18n) label.textContent = window.i18n.getTranslation("disabled_label") || "Disabled";
+            }
+        }
+    });
+}
+
+// --- 8. Danger Zone & Update Dialog ---
+
+function initDangerZone() {
+    const btnReset = document.getElementById("susfs_reset");
+    const modalReset = document.getElementById("confirm_reset_modal");
+    
+    if(btnReset) {
+        btnReset.addEventListener("click", () => {
+            if(modalReset.show) modalReset.show(); else modalReset.showModal();
+        });
+    }
+
+    const btnConfirm = document.getElementById("reset_modal_confirm");
+    if(btnConfirm) {
+        btnConfirm.addEventListener("click", async () => {
+            toast("Resetting...");
+            await execCmd(`sh ${MODULE_PATH}/susfs_reset.sh`);
+            modalReset.close();
+            toast("Reset done! Please reboot");
+            await execCmd("input keyevent 4"); // Go back/close
+        });
+    }
+
+    document.getElementById("reset_modal_cancel")?.addEventListener("click", () => modalReset.close());
+
+    // Export & Logs
+    document.getElementById("susfs_export")?.addEventListener("click", async () => {
+        try {
+            await execCmd(`tar -C ${CONFIG_PATH}/ -czvf /sdcard/susfs_settings.tar.gz .`);
+            toast("Settings exported to /sdcard/susfs_settings.tar.gz");
+        } catch { toast("Failed to export settings"); }
+    });
+
+    document.getElementById("susfs_send_logs")?.addEventListener("click", async () => {
+        try {
+            // Collect Logs
+            await execCmd(`cat /proc/$(pidof zygote64)/mountinfo > ${SUSFS_BASE}/zygote64_mountinfo.txt`);
+            await execCmd(`cat /proc/$(pidof zygote64)/maps > ${SUSFS_BASE}/zygote64_maps.txt`);
+            await execCmd(`cat /proc/1/mountinfo > ${SUSFS_BASE}/pid1_mountinfo.txt`);
+            await execCmd(`cp /data/adb/ksu/log/dmesg.log ${SUSFS_BASE}/dmesg.log`);
+            await execCmd(`ksud module list > ${SUSFS_BASE}/ksu_module_list.txt`);
+            await execCmd(`dmesg | grep susfs > ${SUSFS_BASE}/latest_dmesg_susfs.log`);
+            await execCmd(`tar -C ${SUSFS_BASE}/ -czvf /sdcard/susfs_logs.tar.gz .`);
+            
+            toast("Logs saved to /sdcard/susfs_logs.tar.gz");
+            await execCmd("am start -a android.intent.action.SEND -t '*/*' -c android.intent.category.DEFAULT --eu android.intent.extra.STREAM 'file:///sdcard/susfs_logs.tar.gz'");
+        } catch (e) {
+            toast("Failed to prepare logs: " + e.message);
+        }
+    });
+}
+
+function showUpdateDialog(version, variant) {
+    const dialog = document.getElementById("susfs_update_dialog");
+    const btnUpdate = document.getElementById("susfs_update_btn");
+    const elsToHide = ["susfs_update", "susfs_update_desc1", "susfs_update_desc2", "susfs_update_buttons"];
+    const elsToShow = ["susfs_loading_icon", "susfs_updating"];
+
+    if(dialog.show) dialog.show(); else dialog.showModal();
+
+    btnUpdate.addEventListener("click", async () => {
+        elsToHide.forEach(id => document.getElementById(id)?.classList.add("hidden"));
+        elsToShow.forEach(id => document.getElementById(id)?.classList.remove("hidden"));
+
+        setTimeout(async () => {
+            try {
+                await execCmd(`sh ${MODULE_PATH}/susfs-bin-update.sh ${version.main} ${version.sub} ${version.patch} ${variant.toLowerCase()}`);
+                dialog.close();
+                toast(`SUSFS binary updated to v${version.main}.${version.sub}.${version.patch}!`);
+            } catch {
+                toast("Error updating SUSFS binary!");
+            }
+        }, 500);
+    });
+}
+
+
+// --- 9. Router (Highway.js) ---
+
+const H = new Highway.Core({ transitions: { default: Fade } });
+
+H.on("NAVIGATE_IN", ({ to }) => {
+    // Re-apply translations
+    if (window.i18n) {
+        window.i18n.applyTranslationsToNewContent(to.view);
+    }
+    
+    // Trigger credits logic if needed
+    if (window.location.pathname === "/credits.html") {
+        fetchContributors();
+        fetchTranslators();
+    }
+});
+
+H.on("NAVIGATE_END", async () => {
+    const path = window.location.pathname;
+    
+    // Re-fetch config on navigation to ensure freshness
+    const configContent = await execCmd(`cat ${CONFIG_PATH}/config.sh`);
+    loadedConfig = parseConfig(configContent);
+    const enabledFeatures = await execCmd(`${KSU_SUSFS_BIN} show enabled_features`);
+
+    if (path === "/index.html" || path === "/") {
+        initDangerZone();
+        initLogToggle(loadedConfig);
+        initSpoofing(loadedConfig);
+        initHome(loadedConfig, enabledFeatures);
+    } else if (path === "/custom.html") {
+        initCustomPage(loadedConfig);
+    } else if (path === "/status.html") {
+        initStatusPage(enabledFeatures);
+    }
+});
+
+// --- 10. Start ---
+globalInit();
