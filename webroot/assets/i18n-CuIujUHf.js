@@ -1,192 +1,148 @@
-/**
- * SUSFS WebUI - Material 3 Compatible i18n
- * Adapted from original logic
- */
+let l = { en: "English" },
+    o = localStorage.getItem("susfs_language") || "en",
+    i = null,
+    c = null;
 
-let availableLanguages = { en: "English" };
-let currentLang = localStorage.getItem("susfs_language") || "en";
-let currentXml = null;
-let fallbackXml = null;
-
-async function loadAvailableLanguages() {
+async function x() {
     try {
-        const res = await fetch("/languages/languages.json");
-        if (res.ok) {
-            availableLanguages = await res.json();
-            console.log("Available languages loaded:", availableLanguages);
-        } else {
-            console.error("Could not load languages.json, using defaults");
-        }
-    } catch (e) {
-        console.error("Error loading languages.json:", e);
+        const t = await fetch("/languages/languages.json");
+        t.ok ? (l = await t.json(), console.log("Available languages loaded:", l)) : console.error("Could not load languages.json, using defaults")
+    } catch (t) {
+        console.error("Error loading languages.json:", t)
     }
 }
 
-async function fetchLanguageXml(langCode) {
+async function g(t) {
     try {
-        const res = await fetch(`/languages/${langCode}.xml`);
-        const text = await res.text();
-        return new DOMParser().parseFromString(text, "text/xml");
-    } catch (e) {
-        console.error(`Failed to load language ${langCode}:`, e);
-        // Fallback To English
-        if (langCode !== "en") {
-            return fetchLanguageXml("en");
-        }
-        return null;
+        const e = await (await fetch(`/languages/${t}.xml`)).text();
+        return new DOMParser().parseFromString(e, "text/xml")
+    } catch (n) {
+        return console.error(`Failed to load language ${t}:`, n), t !== "en" ? g("en") : null
     }
 }
 
-// Helper
-function getTranslation(id) {
-    if (!currentXml) return id;
-
-    const strings = currentXml.getElementsByTagName("string");
-    for (let i = 0; i < strings.length; i++) {
-        if (strings[i].getAttribute("id") === id) {
-            const text = strings[i].textContent;
-            if (text && text.trim() !== "") return text;
-            break;
+function h(t) {
+    if (!i) return t;
+    const n = i.getElementsByTagName("string");
+    for (let e = 0; e < n.length; e++)
+        if (n[e].getAttribute("id") === t) {
+            const a = n[e].textContent;
+            if (a && a.trim() !== "") return a;
+            break
         }
+    if (c && o !== "en") {
+        const e = c.getElementsByTagName("string");
+        for (let a = 0; a < e.length; a++)
+            if (e[a].getAttribute("id") === t) return e[a].textContent || t
     }
-
-    // Fallback to English XML If Empty
-    if (fallbackXml && currentLang !== "en") {
-        const fbStrings = fallbackXml.getElementsByTagName("string");
-        for (let j = 0; j < fbStrings.length; j++) {
-            if (fbStrings[j].getAttribute("id") === id) {
-                return fbStrings[j].textContent || id;
-            }
-        }
-    }
-    return id;
+    return t
 }
 
-// Apply To All DOM
-function applyTranslations(xmlDoc) {
-    if (!xmlDoc) return;
-    currentXml = xmlDoc;
-
-    const strings = xmlDoc.getElementsByTagName("string");
-    
-    for (let i = 0; i < strings.length; i++) {
-        const id = strings[i].getAttribute("id");
-        const text = strings[i].textContent;
-
-        // Update
-        document.querySelectorAll(`[data-i18n="${id}"]`).forEach(el => {
-            el.textContent = text;
-        });
-
-        // Material 3 Desain
-        document.querySelectorAll(`[data-i18n-label="${id}"]`).forEach(el => {
-            if ('label' in el) {
-                el.label = text;
+// FUNGSI INI DIPERBAIKI: Menangani Text Content DAN Label MD3
+function p(t) {
+    if (!t) return;
+    i = t;
+    const n = t.getElementsByTagName("string");
+    for (let e = 0; e < n.length; e++) {
+        const a = n[e].getAttribute("id"),
+              s = n[e].textContent;
+        
+        document.querySelectorAll(`[data-i18n="${a}"]`).forEach(f => {
+            // Cek jika elemen adalah Input MD3 atau Label MD3, gunakan properti .label
+            // Jika elemen biasa, gunakan .textContent
+            if (f.tagName.includes('MD-') && 'label' in f) {
+                f.label = s;
+                // Opsional: set placeholder juga jika perlu
+                if('placeholder' in f) f.placeholder = s;
             } else {
-                // Fallback for input standar
-                el.setAttribute("label", text); 
-                el.setAttribute("placeholder", text);
+                f.textContent = s;
             }
-        });
+        })
     }
 }
 
-// Change Language
-async function switchLanguage(langCode) {
-    if (!availableLanguages[langCode]) {
-        console.error(`Language ${langCode} not supported`);
-        return;
+async function r(t) {
+    if (!l[t]) {
+        console.error(`Language ${t} not supported`);
+        return
     }
-
-    const xmlDoc = await fetchLanguageXml(langCode);
-    if (xmlDoc) {
-        applyTranslations(xmlDoc);
-        localStorage.setItem("susfs_language", langCode);
-        currentLang = langCode;
-
-        // Update nilai visual dropdown MD3
-        const selectEl = document.getElementById("language");
-        if (selectEl) {
-            selectEl.value = langCode;
-            selectEl.dispatchEvent(new Event('change')); 
-        }
+    const n = await g(t);
+    if (n) {
+        p(n), localStorage.setItem("susfs_language", t), o = t;
+        const e = document.getElementById("language");
+        // MD3 menggunakan .value seperti biasa, tapi kita pastikan trigger change visual
+        e && (e.value = t) 
     }
 }
 
-function renderLanguageSelector() {
-    const selectEl = document.getElementById("language");
-    if (!selectEl) return;
+async function w() {
+    await x(), c = await g("en"), d(), await r(o)
+}
 
-    // Bersihkan opsi lama
-    selectEl.innerHTML = '';
+async function y() {
+    const t = document.getElementById("language");
+    await r(o), t.addEventListener("change", n => {
+        r(n.target.value)
+    })
+}
 
-    for (const [code, name] of Object.entries(availableLanguages)) {
-        // GUNAKAN md-select-option, BUKAN option biasa
-        const option = document.createElement("md-select-option");
-        option.value = code;
-
-        // Struktur slot headline untuk MD3
-        const headline = document.createElement("div");
-        headline.slot = "headline";
-        headline.textContent = name;
-        
-        option.appendChild(headline);
-
-        if (code === currentLang) {
-            option.selected = true;
-        }
-
-        selectEl.appendChild(option);
-    }
-
-    // Event Listener
-    const newSelectEl = selectEl.cloneNode(true);
-    selectEl.parentNode.replaceChild(newSelectEl, selectEl);
+// FUNGSI INI DIPERBAIKI: Membuat <md-select-option> bukan <option>
+function d() {
+    const t = document.getElementById("language");
+    if(!t) return;
     
-    newSelectEl.addEventListener("change", (e) => {
-        // MD3 select value ada di target.value
-        switchLanguage(e.target.value);
-    });
-    
+    // Bersihkan opsi lama agar tidak duplikat
+    t.innerHTML = "";
+
+    // Tambahkan kembali Icon (opsional, agar tidak hilang saat reset)
+    const icon = document.createElement("md-icon");
+    icon.slot = "leading-icon";
+    icon.textContent = "language";
+    t.appendChild(icon);
+
+    for (const [n, e] of Object.entries(l)) {
+        // GANTI: Buat md-select-option
+        const a = document.createElement("md-select-option");
+        a.value = n;
+        
+        // GANTI: MD3 butuh teks di dalam slot 'headline'
+        const hl = document.createElement("div");
+        hl.slot = "headline";
+        hl.textContent = e;
+        a.appendChild(hl);
+
+        // GANTI: MD3 gunakan properti .selected
+        n === o && (a.selected = !0), t.appendChild(a)
+    }
+    t.addEventListener("change", n => {
+        r(n.target.value)
+    })
 }
 
-// 7. Inisialisasi Utama
-async function init() {
-    await loadAvailableLanguages();
-    fallbackXml = await fetchLanguageXml("en"); // Selalu load English sebagai cadangan
-    renderLanguageSelector(); // Render dropdown MD3
-    await switchLanguage(currentLang); // Load bahasa tersimpan
-}
-
-async function applyTranslationsToNewContent(container) {
-    const xmlDoc = await fetchLanguageXml(currentLang);
-    if (!xmlDoc) return;
-
-    const strings = xmlDoc.getElementsByTagName("string");
-    for (let i = 0; i < strings.length; i++) {
-        const id = strings[i].getAttribute("id");
-        const text = strings[i].textContent;
+// FUNGSI INI DIPERBAIKI: Sama seperti 'p', menangani elemen MD3 dinamis
+async function E(t) {
+    const n = await g(o);
+    if (!n) return;
+    const e = n.getElementsByTagName("string");
+    for (let a = 0; a < e.length; a++) {
+        const s = e[a].getAttribute("id"),
+              u = e[a].textContent;
         
-        // Update textContent
-        container.querySelectorAll(`[data-i18n="${id}"]`).forEach(el => {
-            el.textContent = text;
-        });
-        
-        // Update labels
-        container.querySelectorAll(`[data-i18n-label="${id}"]`).forEach(el => {
-            if('label' in el) el.label = text;
-        });
+        t.querySelectorAll(`[data-i18n="${s}"]`).forEach(m => {
+            if (m.tagName.includes('MD-') && 'label' in m) {
+                m.label = u;
+            } else {
+                m.textContent = u;
+            }
+        })
     }
-
-    if (container.querySelector("#language")) {
-        renderLanguageSelector();
-    }
+    t.querySelector("#language") || d(), y()
 }
 
 window.i18n = {
-    init: init,
-    switchLanguage: switchLanguage,
-    getCurrentLanguage: () => currentLang,
-    getTranslation: getTranslation,
-    applyTranslationsToNewContent: applyTranslationsToNewContent
+    init: w,
+    switchLanguage: r,
+    getCurrentLanguage: () => o,
+    getTranslation: h,
+    applyTranslationsToNewContent: E
 };
