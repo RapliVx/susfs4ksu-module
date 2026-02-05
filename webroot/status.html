@@ -1,154 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-  <script type="module" crossorigin src="/assets/fade-4ApaDT9x.js"></script>
-  <script type="module" crossorigin src="/assets/creditsjs-BfjoyHvA.js"></script>
-  <script type="module" crossorigin src="/assets/i18n-CuIujUHf.js"></script>
-  <script type="module" crossorigin src="/assets/index-DzwXTQ4A.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BkZPgubJ.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUSFS - Kernel Status</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@material/web/": "https://esm.run/@material/web/"
+        }
+      }
+    </script>
+    <script type="module">
+      import '@material/web/all.js';
+      import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+
+    <script type="module" crossorigin src="/assets/fade-4ApaDT9x.js"></script>
+    <script type="module" crossorigin src="/assets/creditsjs-BfjoyHvA.js"></script>
+    <script type="module" crossorigin src="/assets/i18n-CuIujUHf.js"></script>
+    <script type="module" crossorigin src="/assets/index-DzwXTQ4A.js"></script>
+
+    <style>
+        /* --- TEMA MATERIAL 3 --- */
+        :root {
+            --md-sys-color-background: #111318;
+            --md-sys-color-on-background: #e2e2e9;
+            --md-sys-color-surface: #111318;
+            --md-sys-color-surface-container: #1d2024;
+            --md-sys-color-surface-container-high: #282a2f;
+            --md-sys-color-primary: #a8c7fa;
+            --md-sys-color-primary-container: #004a77;
+            --md-sys-color-on-primary-container: #cce5ff;
+            --md-sys-color-error-container: #93000a;
+            --md-sys-color-on-error-container: #ffdad6;
+            --md-sys-color-tertiary-container: #334b4f; /* Yellow-ish replacement */
+            --md-sys-color-on-tertiary-container: #cce8e9;
+            
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        main {
+            width: 100%;
+            max-width: 600px; /* Lebih sempit untuk daftar status */
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 80px;
+        }
+
+        /* Card Container */
+        .card {
+            background-color: var(--md-sys-color-surface-container);
+            border-radius: 24px;
+            padding: 0; /* Padding di-handle oleh items */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            font-size: 1.25rem;
+            font-weight: 500;
+            background-color: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-primary);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* List Items */
+        .feature-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+        .feature-row:last-child { border-bottom: none; }
+        .feature-row:hover { background-color: rgba(255,255,255,0.02); }
+
+        .feature-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* --- COMPATIBILITY BADGES --- */
+        /* CSS ini meniru class DaisyUI agar script JS Anda tetap jalan */
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        /* Default / Warning (Unknown) */
+        .badge-warning {
+            background-color: #4a4539; 
+            color: #e6cba8;
+            border: 1px solid #6b6351;
+        }
+
+        /* Success (Enabled - kemungkinan JS Anda meng-add class ini) */
+        .badge-success {
+            background-color: var(--md-sys-color-primary-container) !important;
+            color: var(--md-sys-color-on-primary-container) !important;
+            border: 1px solid var(--md-sys-color-primary);
+        }
+
+        /* Error (Disabled - kemungkinan JS Anda meng-add class ini) */
+        .badge-error {
+            background-color: var(--md-sys-color-error-container) !important;
+            color: var(--md-sys-color-on-error-container) !important;
+        }
+
+        .back-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen" data-router-wrapper>
-    <main class="max-h-screen relative overflow-x-clip overflow-y-auto pb-14" data-router-view="credits">
-            <section class="flex flex-col gap-4 items-center justify-center pt-10">  
-                <!-- Add this section after the kernel uname section and before the closing </section> tag -->
-                <div class="stats flex flex-col bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 border-white backdrop-blur-[2.5px]">
-                    <div class="stat">
-                        <div class="stat-title text-lg text-white mb-3" data-i18n="kernel_features_label">Kernel Features Status</div>
-                        
-                        <!-- SUS Path -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="sus_path_feature_label">SUS Path Support</span>
-                            <div id="status_sus_path" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
+<body data-router-wrapper>
+    <main data-router-view="credits">
+        
+        <div class="card">
+            <div class="card-header" data-i18n="kernel_features_label">
+                Kernel Features Status
+            </div>
 
-                        <!-- SUS Maps -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="sus_map_feature_label">SUS Maps Support</span>
-                            <div id="status_sus_map" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- SUS Mount -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="sus_mount_feature_label">SUS Mount Support</span>
-                            <div id="status_sus_mount" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-
-                        <!-- SUS Kstat -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="sus_kstat_feature_label">SUS Kstat Support</span>
-                            <div id="status_sus_kstat" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-
-                        <!-- Try Umount -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="try_umount_feature_label">Try Umount Support</span>
-                            <div id="status_try_umount" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Spoof Uname -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="spoof_uname_feature_label">Spoof Uname Support</span>
-                            <div id="status_spoof_uname" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Spoof Cmdline -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="spoof_cmdline_feature_label">Spoof Cmdline/Bootconfig</span>
-                            <div id="status_spoof_cmdline" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-
-                        <!-- Open Redirect -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="open_redirect_feature_label">Open Redirect Support</span>
-                            <div id="status_open_redirect" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-
-                        <!-- Enable Log -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="enable_log_feature_label">Logging Support</span>
-                            <div id="status_enable_log" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-
-                        <!-- Auto Add Default Mount -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="auto_default_mount_feature_label">Auto hide Default Mount</span>
-                            <div id="status_auto_default_mount" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Auto Add Bind Mount -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="auto_bind_mount_feature_label">Auto hide Bind Mount</span>
-                            <div id="status_auto_bind_mount" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Auto Try Umount Bind -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="auto_try_umount_bind_feature_label">Auto hide Try Umount Bind</span>
-                            <div id="status_auto_try_umount_bind" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Hide KSU SUSFS Symbols -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="hide_symbols_feature_label">Hide KSU SUSFS Symbols</span>
-                            <div id="status_hide_symbols" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Magic Mount -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="magic_mount_feature_label">Magic Mount Support</span>
-                            <div id="status_magic_mount" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
-                        
-                        <!-- OverlayFS Auto Kstat -->
-                        <div class="flex justify-between items-center py-2 px-2">
-                            <span class="text-white text-base" data-i18n="overlayfs_auto_kstat_feature_label">OverlayFS Auto Kstat Support</span>
-                            <div id="status_overlayfs_auto_kstat" class="badge badge-warning text-sm ml-4">
-                                <span data-i18n="unknown_label">Unknown</span>
-                            </div>
-                        </div>
+            <div class="flex-col">
+                
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="sus_path_feature_label">SUS Path Support</span>
+                    <div id="status_sus_path" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
                     </div>
                 </div>
-                <a href="index.html" class="text-white"><button class="btn btn-outline text-xl bg-cyan-100/30 dark:bg-black/30 backdrop-blur-sm text-white border-white" data-i18n="main_menu_label">Back to main menu</button></a>
-            </section>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="sus_map_feature_label">SUS Maps Support</span>
+                    <div id="status_sus_map" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="sus_mount_feature_label">SUS Mount Support</span>
+                    <div id="status_sus_mount" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="sus_kstat_feature_label">SUS Kstat Support</span>
+                    <div id="status_sus_kstat" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="try_umount_feature_label">Try Umount Support</span>
+                    <div id="status_try_umount" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="spoof_uname_feature_label">Spoof Uname Support</span>
+                    <div id="status_spoof_uname" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="spoof_cmdline_feature_label">Spoof Cmdline/Bootconfig</span>
+                    <div id="status_spoof_cmdline" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="open_redirect_feature_label">Open Redirect Support</span>
+                    <div id="status_open_redirect" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="enable_log_feature_label">Logging Support</span>
+                    <div id="status_enable_log" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="auto_default_mount_feature_label">Auto hide Default Mount</span>
+                    <div id="status_auto_default_mount" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="auto_bind_mount_feature_label">Auto hide Bind Mount</span>
+                    <div id="status_auto_bind_mount" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="auto_try_umount_bind_feature_label">Auto hide Try Umount Bind</span>
+                    <div id="status_auto_try_umount_bind" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="hide_symbols_feature_label">Hide KSU SUSFS Symbols</span>
+                    <div id="status_hide_symbols" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="magic_mount_feature_label">Magic Mount Support</span>
+                    <div id="status_magic_mount" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <span class="feature-label" data-i18n="overlayfs_auto_kstat_feature_label">OverlayFS Auto Kstat Support</span>
+                    <div id="status_overlayfs_auto_kstat" class="badge badge-warning">
+                        <span data-i18n="unknown_label">Unknown</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" style="text-decoration: none;">
+                <md-outlined-button>
+                    <md-icon slot="icon">arrow_back</md-icon>
+                    <span data-i18n="main_menu_label">Back to main menu</span>
+                </md-outlined-button>
+            </a>
+        </div>
+
     </main>
+
     <script>
-		// Initialize translations after DOM is loaded
-		document.addEventListener('DOMContentLoaded', () => {
-		  window.i18n.init();
-		});
-	</script>
+        // Initialize translations after DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+          if(window.i18n) window.i18n.init();
+        });
+    </script>
 </body>
 </html>
