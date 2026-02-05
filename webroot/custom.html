@@ -1,224 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-  <script type="module" crossorigin src="/assets/fade-4ApaDT9x.js"></script>
-  <script type="module" crossorigin src="/assets/creditsjs-BfjoyHvA.js"></script>
-  <script type="module" crossorigin src="/assets/i18n-CuIujUHf.js"></script>
-  <script type="module" crossorigin src="/assets/index-DzwXTQ4A.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BkZPgubJ.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SUSFS - Custom Settings</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@material/web/": "https://esm.run/@material/web/"
+        }
+      }
+    </script>
+    <script type="module">
+      import '@material/web/all.js';
+      import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+
+    <script type="module" crossorigin src="/assets/fade-4ApaDT9x.js"></script>
+    <script type="module" crossorigin src="/assets/creditsjs-BfjoyHvA.js"></script>
+    <script type="module" crossorigin src="/assets/i18n-CuIujUHf.js"></script>
+    <script type="module" crossorigin src="/assets/index-DzwXTQ4A.js"></script>
+    <style>
+        /* --- TEMA MATERIAL 3 (Sama dengan index.html) --- */
+        :root {
+            --md-sys-color-background: #111318;
+            --md-sys-color-on-background: #e2e2e9;
+            --md-sys-color-surface: #111318;
+            --md-sys-color-surface-container: #1d2024;
+            --md-sys-color-primary: #a8c7fa;
+            --md-sys-color-on-primary: #003062;
+            --md-sys-color-secondary: #bec6dc;
+            --md-sys-color-tertiary: #dcaeeb;
+            --md-sys-color-error: #ffb4ab;
+            
+            --font-body: 'Roboto', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Helpers */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .w-full { width: 100%; }
+
+        main {
+            width: 100%;
+            max-width: 800px;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 80px; /* Space for bottom scroll */
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--md-sys-color-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Card Style */
+        .card {
+            background-color: var(--md-sys-color-surface-container);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--md-sys-color-primary);
+        }
+
+        /* Setting Row (Label + Switch) */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .setting-row:last-child { border-bottom: none; }
+        .setting-label { font-size: 1rem; }
+
+        /* Text Area Section */
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .editor-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Custom Font for Text Areas */
+        md-outlined-text-field {
+            width: 100%;
+            --md-outlined-text-field-input-text-font: var(--font-mono);
+            --md-outlined-text-field-input-text-size: 13px;
+        }
+
+        /* Range Slider Area */
+        .slider-container {
+            padding: 12px 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 8px;
+        }
+        .slider-desc {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: var(--md-sys-color-tertiary);
+        }
+    </style>
 </head>
 
-<style>
-	div,p{
-		z-index: 40;	
-	}
-</style>
+<body>
+    <main data-router-wrapper>
+        <div data-router-view="custom" style="display: flex; flex-direction: column; gap: 24px;">
+            
+            <header>
+                <div class="flex flex-col">
+                    <h1 data-i18n="custom_settings_label">Custom Settings</h1>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                    <md-text-button onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/sidex15/susfs4ksu-module/wiki/SUSFS-Custom-Settings`)">
+                        <md-icon slot="icon">help</md-icon>
+                        Help
+                    </md-text-button>
+                    <a href="index.html" style="text-decoration: none;">
+                        <md-outlined-button data-i18n="main_menu_label">Main Menu</md-outlined-button>
+                    </a>
+                </div>
+            </header>
 
-<body class="bg-black font-amongus2">
-	<!--<div class="z-50 toast toast-top toast-center">
-		<div id="toast" class="alert alert-error bg-red-500 font-bold text-black font-sans opacity-100 duration-300">
-			<span>Spaces are not allowed in the input!</span>
-		  </div>
-	</div>-->
-	<main class="max-h-screen relative overflow-auto" data-router-wrapper>
-		<div class="pt-3 pb-14" data-router-view="custom">
-			<div class="flex justify-between items-center mx-auto ml-4 pt-4 mr-4">
-				<div class="flex flex-col">
-					<div class="font-bold text-4xl text-white font-amongus2 uppercase" data-i18n="custom_settings_label">Custom Settings</div>
-				</div>
-                <div>
-					<button class="btn btn-md btn-outline h-auto text-sm border-white mt-2 text-white" data-i18n="help_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/sidex15/susfs4ksu-module/wiki/SUSFS-Custom-Settings`)">Help</button>
-                    <a href="index.html" class="text-white"><button class="btn btn-md btn-outline h-auto text-sm border-white mt-2 text-white" data-i18n="main_menu_label">main menu</button></a>
-				</div>
-			</div>
-			<section class="flex flex-col justify-start items-center min-h-fit ml-4 mr-4 uppercase font-bold">
-				<div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]">
-                    <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="hide_gapps_label">Hide Gapps</span>
-                        <input type="checkbox" id="hide_gapps" class="toggle toggle-md toggle-secondary" checked="checked" />
-                    </label>
+            <div class="card">
+                <div class="card-header">General Toggles</div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_gapps_label">Hide Gapps</span>
+                    <md-switch id="hide_gapps" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="emulate_vold_app_data_label">Emulate Vold App Data Isolation</span>
+                    <md-switch id="emulate_vold_app_data" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_revanced_label">Hide Revanced (YT/YTM)</span>
+                    <md-switch id="hide_revanced" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="spoof_cmdline_label">Spoof CMDLINE</span>
+                    <md-switch id="spoof_cmdline" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_ksu_loop_label">Hide KSU Loops</span>
+                    <md-switch id="hide_ksu_loop" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="avc_log_spoofing_label">AVC Log Spoofing</span>
+                    <md-switch id="avc_log_spoofing" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="force_hide_dex2oat_label">Force Hide Dex2oat Mounts</span>
+                    <md-switch id="force_hide_lsposed" selected></md-switch>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" data-i18n="hide_paths_label">Hide Custom Rom Settings</div>
+                
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_custom_rom_label">Hide Custom Rom Paths</span>
+                    <md-switch id="hide_custom_rom" selected></md-switch>
+                </div>
+
+                <div id="custom_rom_levels" class="hidden slider-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span class="setting-label" data-i18n="hide_level_label">Hide Level</span>
                     </div>
-                    <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="emulate_vold_app_data_label">Emulate Vold App Data Isolation</span>
-                        <input type="checkbox" id="emulate_vold_app_data" class="toggle toggle-md toggle-primary" checked="checked" />
-                    </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base font-amongus2" data-i18n="hide_revanced_label">Hide Revanced (YT/YTM)</span>
-                        <input type="checkbox" id="hide_revanced" class="toggle toggle-md toggle-accent" checked="checked" />
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="spoof_cmdline_label">Spoof CMDLINE</span>
-                        <input type="checkbox" id="spoof_cmdline" class="toggle toggle-md toggle-success" checked="checked" />
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="hide_ksu_loop_label">Hide KSU Loops</span>
-                        <input type="checkbox" id="hide_ksu_loop" class="toggle toggle-md toggle-warning" checked="checked" />
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="avc_log_spoofing_label">AVC Log Spoofing</span>
-                        <input type="checkbox" id="avc_log_spoofing" class="toggle toggle-md toggle-success" checked="checked" />
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="force_hide_dex2oat_label">Force Hide Dex2oat Mounts</span>
-                        <input type="checkbox" id="force_hide_lsposed" class="toggle toggle-md toggle-error" checked="checked" />
-                        </label>
-                    </div>
-				</div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]">
-                    <h2 class="text-white text-xl font-bold mb-3" data-i18n="hide_paths_label">Hide Custom Rom Settings</h2>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                            <span class="text-white text-base" data-i18n="hide_custom_rom_label">Hide Custom Rom Paths</span>
-                            <input type="checkbox" id="hide_custom_rom" class="toggle toggle-md toggle-primary" checked="checked" />
-                        </label>
-                    </div>
-                    <div id="custom_rom_levels" class="hidden pb-3">
-                        <label class="label cursor-pointer">
-                        <span class="text-white text-base" data-i18n="hide_level_label">Hide Level</span>
-                        </label>
-                        <input type="range" min="0" max="100" value="0" class="range range-xs" step="25" id="hide_level"/>
-                        <div class="flex w-full justify-between px-2 text-xs font-normal font-amongus text-white">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                        </div>
-                        <p class="text-white text-sm hidden font-amongus2 mt-2" data-i18n="hide_custom_rom_desc1" id="hide_level1">Exclude .apk, .jar, .odex, .vdex, .so, .rc, and /vendor/bin/hw/ files</p>
-                        <p class="text-white text-sm hidden font-amongus2 mt-2" data-i18n="hide_custom_rom_desc2" id="hide_level2">Exclude .apk, .jar, .odex, .vdex, .so, and /vendor/bin/hw/ files</p>
-                        <p class="text-white text-sm hidden font-amongus2 mt-2" data-i18n="hide_custom_rom_desc3" id="hide_level3">Exclude .apk, .jar, .odex, .vdex, and /vendor/bin/hw/ files</p>
-                        <p class="text-white text-sm hidden font-amongus2 mt-2" data-i18n="hide_custom_rom_desc4" id="hide_level4">Exclude .apk, .jar, and /vendor/bin/hw/ files</p>
-                        <p class="text-white text-sm hidden font-amongus2 mt-2" data-i18n="hide_custom_rom_desc5" id="hide_level5">Hide all custom rom paths (Risky and it could cause issues)</p>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                                <span class="text-white text-base" data-i18n="hide_vendor_sepolicy_label">Hide vendor sepolicy</span>
-                            <input type="checkbox" id="hide_vendor_sepolicy" class="toggle toggle-md toggle-primary" checked="checked" />
-                        </label>
-                    </div>
-                    <div class="form-control">
-                        <label class="label cursor-pointer">
-                                <span class="text-white text-base" data-i18n="hide_compat_matrix_label">Hide Compat Matrix</span>
-                            <input type="checkbox" id="hide_compat_matrix" class="toggle toggle-md toggle-primary" checked="checked" />
-                        </label>
+                    
+                    <md-slider 
+                        id="hide_level" 
+                        min="0" 
+                        max="100" 
+                        step="25" 
+                        value="0" 
+                        labeled
+                        ticks>
+                    </md-slider>
+                    
+                    <p class="slider-desc hidden" data-i18n="hide_custom_rom_desc1" id="hide_level1">Exclude .apk, .jar, .odex, .vdex, .so, .rc, and /vendor/bin/hw/ files</p>
+                    <p class="slider-desc hidden" data-i18n="hide_custom_rom_desc2" id="hide_level2">Exclude .apk, .jar, .odex, .vdex, .so, and /vendor/bin/hw/ files</p>
+                    <p class="slider-desc hidden" data-i18n="hide_custom_rom_desc3" id="hide_level3">Exclude .apk, .jar, .odex, .vdex, and /vendor/bin/hw/ files</p>
+                    <p class="slider-desc hidden" data-i18n="hide_custom_rom_desc4" id="hide_level4">Exclude .apk, .jar, and /vendor/bin/hw/ files</p>
+                    <p class="slider-desc hidden" data-i18n="hide_custom_rom_desc5" id="hide_level5">Hide all custom rom paths (Risky and it could cause issues)</p>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_vendor_sepolicy_label">Hide vendor sepolicy</span>
+                    <md-switch id="hide_vendor_sepolicy" selected></md-switch>
+                </div>
+
+                <div class="setting-row">
+                    <span class="setting-label" data-i18n="hide_compat_matrix_label">Hide Compat Matrix</span>
+                    <md-switch id="hide_compat_matrix" selected></md-switch>
+                </div>
+            </div>
+
+            <div id="sus_path_section" class="card">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_sus_path_label">Custom SUS Path</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_sus_path" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_path.txt`)">Edit external</md-outlined-button>
                     </div>
                 </div>
-				<div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]" id="sus_path_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_sus_path_label">Custom SUS Path</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_sus_path" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_path.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_sus_path"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_sus_path">Make it SuS</button>
-                    </div>
-                </div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px] hidden" id="sus_path_loop_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_sus_path_loop_label">Custom SUS Path Loop</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_sus_path_loop" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_path_loop.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_sus_path_loop"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_sus_path_loop">Make it SuS</button>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_sus_path">
+                </md-outlined-text-field>
+                <md-filled-button id="save_sus_path" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+            <div id="sus_path_loop_section" class="card hidden">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_sus_path_loop_label">Custom SUS Path Loop</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_sus_path_loop" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_path_loop.txt`)">Edit external</md-outlined-button>
                     </div>
                 </div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px] hidden" id="sus_maps_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_sus_maps_label">Custom SUS Maps</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_sus_maps" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_maps.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_sus_maps"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_sus_maps">Make it SuS</button>
-                    </div>
-                </div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]" id="sus_mount_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_sus_mount_label">Custom SUS Mount</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_sus_mount" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_mount.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_sus_mount"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_sus_mount">Make it SuS</button>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_sus_path_loop">
+                </md-outlined-text-field>
+                <md-filled-button id="save_sus_path_loop" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+            <div id="sus_maps_section" class="card hidden">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_sus_maps_label">Custom SUS Maps</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_sus_maps" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_maps.txt`)">Edit external</md-outlined-button>
                     </div>
                 </div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]" id="try_umount_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_try_umount_label">Custom Try umount</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_try_umount" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/try_umount.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_try_umount"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_try_umount">Make it SuS</button>
-                    </div>
-                </div>
-                <div class="stats flex flex-col divide-x-0 divide-y-0 white:bg-cyan-100/20 bg-cyan-100/20 dark:bg-black/20 mt-5 border-2 p-4 border-white backdrop-blur-[2.5px] min-w-full sm:min-w-[400px]" id="sus_open_redirect_section">
-                    <div class="form-control min-w-full sm:min-w-[400px]">
-                        <label class="label cursor-pointer justify-between items-center flex">
-                            <span class="text-white text-base" data-i18n="custom_sus_open_redirect_label">Custom Open Redirect</span>
-                            <div class="flex flex-row gap-2">
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" id="load_sus_open_redirect" data-i18n="load_label">load</button>
-                                <button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-base font-normal" data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_open_redirect.txt`)">Edit with</button>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="stat flex flex-col justify-center items-center p-0">
-                        <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_sus_open_redirect"></textarea>
-                        <button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-base font-normal" id="save_sus_open_redirect">Make it SuS</button>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_sus_maps">
+                </md-outlined-text-field>
+                <md-filled-button id="save_sus_maps" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+            <div id="sus_mount_section" class="card">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_sus_mount_label">Custom SUS Mount</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_sus_mount" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_mount.txt`)">Edit external</md-outlined-button>
                     </div>
                 </div>
-			</section>
-		</div>
-	</main>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_sus_mount">
+                </md-outlined-text-field>
+                <md-filled-button id="save_sus_mount" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+            <div id="try_umount_section" class="card">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_try_umount_label">Custom Try Umount</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_try_umount" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/try_umount.txt`)">Edit external</md-outlined-button>
+                    </div>
+                </div>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_try_umount">
+                </md-outlined-text-field>
+                <md-filled-button id="save_try_umount" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+            <div id="sus_open_redirect_section" class="card">
+                <div class="editor-header">
+                    <span class="card-header" data-i18n="custom_sus_open_redirect_label">Custom Open Redirect</span>
+                    <div class="editor-actions">
+                        <md-text-button id="load_sus_open_redirect" data-i18n="load_label">Load</md-text-button>
+                        <md-outlined-button data-i18n="edit_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -t text/plain -d file:///data/adb/susfs4ksu/sus_open_redirect.txt`)">Edit external</md-outlined-button>
+                    </div>
+                </div>
+                <md-outlined-text-field 
+                    type="textarea" 
+                    rows="8" 
+                    placeholder="Press Load" 
+                    id="custom_sus_open_redirect">
+                </md-outlined-text-field>
+                <md-filled-button id="save_sus_open_redirect" style="align-self: flex-end; margin-top: 8px;">Make it SuS</md-filled-button>
+            </div>
+
+        </div>
+    </main>
+
     <script>
-		// Initialize translations after DOM is loaded
-		document.addEventListener('DOMContentLoaded', () => {
-		  window.i18n.init();
-		});
-	</script>
+        document.addEventListener('DOMContentLoaded', () => {
+             // Init i18n
+             if(window.i18n) window.i18n.init();
+             
+             // --- Switch Polyfill ---
+             // Map .checked to .selected for md-switch
+             customElements.whenDefined('md-switch').then(() => {
+                document.querySelectorAll('md-switch').forEach(s => {
+                    Object.defineProperty(s, 'checked', {
+                        get() { return this.selected; },
+                        set(v) { this.selected = v; }
+                    });
+                });
+             });
+
+             // --- Slider Polyfill ---
+             // Existing JS likely uses 'input' event and .value property.
+             // MD3 slider uses 'input'/'change' but native behavior might differ slightly.
+             // We ensure the ID matches what logic expects.
+             const slider = document.getElementById('hide_level');
+             if(slider) {
+                // Ensure default value is visually set if logic relies on HTML attribute
+                // logic.js might attach event listener like: el.addEventListener('input', ...)
+                // MD3 slider emits 'input' event with event.target.value accessible, so this should work natively.
+             }
+
+             // --- Text Field Polyfill ---
+             // Existing JS likely sets .value on textarea.
+             // md-outlined-text-field also uses .value, so this is compatible.
+        });
+    </script>
 </body>
-
 </html>
-
-
